@@ -1,4 +1,4 @@
-#Valokuvien jako applikaation
+# Valokuvien jako applikaation
 Julkaise valokuvia sivulle<br>
 Anna valokuvallesi tiedot ja tarina<br>
 Kommentoi toisten kuvia<br>
