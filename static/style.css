@@ -1,0 +1,5 @@
+nav{
+    display: flexbox;
+    flex-direction: row;
+    color: blue;
+}
