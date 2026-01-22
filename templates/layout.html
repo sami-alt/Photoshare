@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>{% block title %}{% endblock %}</title>
+  <link rel="stylesheet" href="../static/style.css">
+</head>
+
+<body>
+<div class="header">
+    <h1>PhotoShare</h1>
+</div>
+<div class="nav">
+    <nav>
+        <ul>
+            <li><a>Pictures</a></li>
+            <li><a>Login</a></li>
+            <li><a>Logout</a></li>
+        </ul>
+    </nav>
+</div>
+  <div class="content">
+    {% block content %}{% endblock %}
+  </div>
+</body>
+
+</html>
