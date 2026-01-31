@@ -1,0 +1,13 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<form action="/add_new_picture" method="post" enctype="multipart/form-data">
+    Picture: <input type="file" name="image" accept=".jpg" />
+    Name: <input type="text" name="name"/>
+    Description: <input type="text" name="description"/>
+    Date <input type="date" name="date">
+    <input type="submit" value="Add picture"/>
+</form>
+
+{% endblock %}

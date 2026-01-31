@@ -13,11 +13,25 @@
 <div class="nav">
     <nav>
         <ul>
-            <li><a>Pictures</a></li>
-            <li><a>Login</a></li>
-            <li><a>Logout</a></li>
+            <li><a href="/pictures" >Pictures</a></li>
+            <li><a href="/signin">Signin</a></li>
+            {% if user %}
+              <li><a href="/logout">Logout</a></li>
+            {% else %}
+             <li><a href="/login">Login</a></li>
+            {% endif %}
+
         </ul>
     </nav>
+    {% if user %}
+      {{user}}
+    {% endif %}
+</div>
+<div class="flash">{% with messages = get_flashed_messages() %}
+    {% if messages  %}
+      <h1 style="color: green;">{{messages[0]}}</h1>
+    {% endif %}
+  {% endwith %}
 </div>
   <div class="content">
     {% block content %}{% endblock %}

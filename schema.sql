@@ -1,10 +1,14 @@
 create table user(
     id integer primary key,
-    name text
-)
+    username text,
+    password text
+);
 
-create table pictures(
+create table picture(
     id integer primary key,
     user_id integer references user(id),
-    image BLOB
-)
+    image BLOB,
+    name text,
+    description text,
+    date text
+);

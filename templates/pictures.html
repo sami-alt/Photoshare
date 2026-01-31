@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<h1>Pictures</h1>
+    <a href="/add_picture">Add picture</a>
+  <p>
+    default pictures without search parameters
+    {% if pictures %}
+        {% for picture in picture %}
+            <img src="/pictures/{{picture}}" />>
+        {% endfor %}
+    {% endif %}
+  </p>
+{% endblock %}
