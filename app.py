@@ -22,7 +22,7 @@ def index():
 #User auth functions
 
 def require_login():
-    if 'id' in session:
+    if 'id' not in session:
         abort(403)
 
 @app.route('/login')
@@ -184,7 +184,7 @@ def paramater_search():
     parameter = request.args.get('parameter')
     db = sqlite3.connect('database.db')
 
-    pictures = db.execute('select id, name, date from picture where name like ?', ["%"+parameter+"%"] ).fetchall()
+    pictures = db.execute('select id, name, date from picture where name like ? or description like ?', ["%"+parameter+"%", "%"+parameter+"%"] ).fetchall()
     
     found = [{'id':picture[0], 'name':picture[1], 'date':picture[2]} for picture in pictures]
 
