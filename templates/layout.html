@@ -15,22 +15,25 @@
         <ul>
             <li><a href="/">Home</a></li> 
             <li><a href="/pictures" >Pictures</a></li>
-            <li><a href="/signin">Signin</a></li>
+            <li><a href="/add_picture">Add picture</a></li>
+            <li><a href="/search">Search</a></li>
+            <li><a href="/my_pictures">My pictures</a></li>
             {% if user %}
-              <li><a href="/logout">Logout</a></li>
+            <li><a href="/logout">Logout</a></li>
             {% else %}
+            <li><a href="/signin">Signin</a></li>
              <li><a href="/login">Login</a></li>
             {% endif %}
-
         </ul>
+        
     </nav>
     {% if user %}
       {{user[1]}}
     {% endif %}
 </div>
-<div class="flash">{% with messages = get_flashed_messages() %}
+<div >{% with messages = get_flashed_messages(with_categories=true) %}
     {% if messages  %}
-      <h1 style="color: green;">{{messages[0]}}</h1>
+      <h1 style="color: green;">{{messages[0][1]}}</h1>
     {% endif %}
   {% endwith %}
 </div>

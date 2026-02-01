@@ -1,0 +1,9 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+  {% for picture in pictures %}
+    <p><a href="/picture/{{picture['id']}}">{{picture['name']}}</a></p>
+  {% endfor %}
+
+{% endblock %}

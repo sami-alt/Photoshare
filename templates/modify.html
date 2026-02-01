@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+
+<img src="/image/picture/{{id}}"/>
+<form action="/modify_picture/{{id}}" method="post">
+    Name: <input type="text" name="name" value="{{info['name']}}"/>
+    Description: <input type="text" name="description" value="{{info['description']}}"/>
+    Date <input type="text" name="date" value="{{info['date']}}">
+    <input type="submit" value="Modify"/>
+</form>
+
+{% endblock %}

@@ -8,7 +8,9 @@
         {{info[1]}}
         <br>
         {{info[2]}}
+        
         <form action="/remove/{{id}}" method="post">
-                <input type="submit" name="remove" value="Delete picture">
+                <input class="button" type="submit" name="remove" value="Delete picture">
         </form>
+        <a class="button" href="/modify/{{id}}">Modify</a>
 {% endblock %}

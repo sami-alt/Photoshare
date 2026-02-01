@@ -3,3 +3,29 @@ nav{
     flex-direction: row;
     color: blue;
 }
+
+
+
+.button {
+    display: inline-block;
+    padding: 6px 12px;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.42857143;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    cursor: pointer;
+    user-select: none;
+    background-color: #f8f9fa;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    color: #333;
+    text-decoration: none;
+}
+
+.button:hover {
+    background-color: #e2e6ea;
+    border-color: #dae0e5;
+    text-decoration: none;
+}

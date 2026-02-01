@@ -1,9 +1,9 @@
 from flask import Flask
 from flask import render_template, redirect, flash, request, make_response, session
-from werkzeug.security import generate_password_hash, check_password_hash
+#from werkzeug.security import generate_password_hash, check_password_hash
 import sqlite3
 import config
-import secrets
+#import secrets
 
 app = Flask(__name__)
 app.secret_key = config.secret_key
@@ -101,7 +101,6 @@ def add_picture_to_db():
 
 @app.route('/picture/<int:id>')
 def one_picture(id):
-    print('hui')
     db = sqlite3.connect('database.db')
     pic_info = db.execute('select name, description, date, user_id from picture where id = ?', [id]).fetchone()
     return render_template('picture.html',id=id, info=pic_info)
@@ -125,9 +124,16 @@ def pictures():
     print('pictures',pictures)
     sendObj = [{'id':picture[0], 'name':picture[1], 'date':picture[2]} for picture in pictures]
     
-    print(sendObj)
     return render_template('pictures.html', pictures=sendObj)
 
+@app.route('/my_pictures')
+def my_pictures():
+    db = sqlite3.connect('database.db')
+    
+    pictures = db.execute('select id, name, description from picture where user_id = ?',[session['id']])
+
+    my_pics = [{'id':picture[0], 'name':picture[1], 'date':picture[2]} for picture in pictures]
+    return render_template("pictures.html", pictures=my_pics)
 
 @app.route('/remove/<int:id>', methods=['POST'])
 def delete_picture(id):
@@ -137,8 +143,54 @@ def delete_picture(id):
     db.commit()
     db.close()
 
-    flash('Picture deleted')
+    flash('Picture deleted','success')
     return redirect('/')
 
+@app.route('/modify/<int:id>', methods=['GET'])
+def modify_picture(id):
+    info = None
+    db = sqlite3.connect('database.db')
+    result = db.execute('select name, description, date from picture where id = ?',[id]).fetchone()
+    info = {'name':result[0], 'description':result[1], 'date':result[2]}
+    print(info)
+    return render_template('modify.html', info=info, id=id)
+
+@app.route('/modify_picture/<int:id>', methods=['POST'])
+def modify_picture_info(id):
+    name = request.form['name']
+    description = request.form['description']
+    date = request.form['date']
+    db = sqlite3.connect('database.db')
+    db.execute('update picture set name = ?, description = ?, date = ? where id = ?',[name, description, date, id])
+    db.commit()
+    db.close()
+    flash('Picture info modified')
+    return redirect('/')
+
+
+#searc function
+
+@app.route('/search')
+def search_form():
+    return render_template('search.html')
+
+@app.route('/search_with_parameter', methods=['GET'])
+def paramater_search():
+    found = None
+    parameter = request.args.get('parameter')
+    db = sqlite3.connect('database.db')
+
+    pictures = db.execute('select id, name, date from picture where name like ?', ["%"+parameter+"%"] ).fetchall()
+    
+    found = [{'id':picture[0], 'name':picture[1], 'date':picture[2]} for picture in pictures]
+
+    print(found)
+
+    return render_template('pictures.html', pictures=found)
+
+
 #to-do
-#modify picture object
+
+#search on name, date, description
+#users own pictures
+#verify login on adding removing and changing
