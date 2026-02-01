@@ -1,6 +1,6 @@
 from flask import Flask
-from flask import render_template, redirect, flash, request, make_response, session
-#from werkzeug.security import generate_password_hash, check_password_hash
+from flask import render_template, redirect, flash, request, make_response, session, abort
+from werkzeug.security import generate_password_hash, check_password_hash
 import sqlite3
 import config
 #import secrets
@@ -20,6 +20,10 @@ def index():
 
 
 #User auth functions
+
+def require_login():
+    if 'id' in session:
+        abort(403)
 
 @app.route('/login')
 def login():
@@ -46,7 +50,7 @@ def login_user():
     password = request.form['password']
     db = sqlite3.connect('database.db')
     user = db.execute('select id, username, password from user where username = ?',[username]).fetchone()
-    if not user or password != user[2]:
+    if not user or check_password_hash(password, user[2]):
         flash('Username or password does not match')
         return redirect('/login')
     flash(f'Welcome {username}')
@@ -70,8 +74,9 @@ def add_user():
     if not (password1 == password2):
         flash('Password do not match!')
         return redirect('/signin')
+    hash = generate_password_hash(password1)
     db = sqlite3.connect('database.db')
-    db.execute('insert into user (username, password) values (?,?)',[username, password1])
+    db.execute('insert into user (username, password) values (?,?)',[username, hash])
     db.commit()
     db.close()
     flash('User added sucsesfully')
@@ -85,6 +90,7 @@ def add_picture_page():
 
 @app.route('/add_new_picture', methods=['POST'])
 def add_picture_to_db():
+    require_login()
     #add validation
     file = request.files['image']
     name = request.form['name']
@@ -129,9 +135,7 @@ def pictures():
 @app.route('/my_pictures')
 def my_pictures():
     db = sqlite3.connect('database.db')
-    
     pictures = db.execute('select id, name, description from picture where user_id = ?',[session['id']])
-
     my_pics = [{'id':picture[0], 'name':picture[1], 'date':picture[2]} for picture in pictures]
     return render_template("pictures.html", pictures=my_pics)
 
