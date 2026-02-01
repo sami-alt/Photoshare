@@ -1,8 +1,10 @@
 {% extends "layout.html" %}
 
 {% block content %}
-    {% if picture %}
-        <img src="/image/picture"/>
-    {% endif %}
-    no picture
+    
+        <img src="/image/picture/{{picture}}"/>
+        <p>if not picture -></p>
+        <p>no picture available</p>
+    
+    
 {% endblock %}

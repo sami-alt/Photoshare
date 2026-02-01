@@ -10,9 +10,13 @@ app.secret_key = config.secret_key
 
 @app.route("/")
 def index():
-    user = session.get('username')
-    if not user:
-        print('is not')
+    loggedIn = session.get('username')
+    user = None
+    if loggedIn:
+        db = sqlite3.connect('database.db')
+        user = db.execute('select id, username from user where username = ?',[loggedIn]).fetchone()
+
+
     return render_template('home.html', user=user)
 
 
@@ -36,9 +40,6 @@ def signin_page():
 @app.route('/add_user')
 def add_user_page():
     return render_template('signin.html')
-
-
-#database and sql functions,
 
 @app.route('/login_user', methods=['POST'])
 def login_user():
@@ -76,4 +77,53 @@ def add_user():
     db.close()
     flash('User added sucsesfully')
     return redirect('/')
+
+#picture functions
+
+@app.route("/add_picture")
+def add_picture_page():
+    return render_template('add_picture.html')
+
+@app.route('/add_new_picture', methods=['POST'])
+def add_picture_to_db():
+    #add validation
+    file = request.files['image']
+    name = request.form['name']
+    description = request.form['description']
+    date = request.form['date']
+    image = file.read()
+    #
+    db = sqlite3.connect('database.db')
+    db.execute('insert into picture (user_id, image, name, description, date) values (?,?,?,?,?)',[session['id'], image, name, description, date])
+    db.commit()
+    db.close()
+    return redirect('/')
+
+
+@app.route('/picture/<int:id>')
+def one_picture(id):
+    print('hui')
+    return render_template('picture.html',picture=id)
+
+@app.route('/image/picture/<int:id>')
+def show_picture(id):
+    db = sqlite3.connect('database.db')
+    image = db.execute('select image from picture where id = ?',[id]).fetchone()
+    if not image:
+        print('wah')
+        flash('Something went wrong')
+        return redirect('/pictures')
+    print('hai', image)
+    response = make_response(bytes(image[0]))
+    response.headers.set('Content-Type', 'image/png')
+    return response
+
+
+@app.route('/pictures')
+def pictures():
+    db = sqlite3.connect('database.db')
+    pictures = db.execute('select id from picture').fetchall()
+    sendObj = [i for i in range(1,len(pictures) + 1)]
+    print(sendObj)
+    return render_template('pictures.html', pictures=sendObj)
 

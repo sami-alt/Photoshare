@@ -2,13 +2,7 @@
 
 {% block content %}
 <h1>Pictures</h1>
-    <a href="/add_picture">Add picture</a>
-  <p>
-    default pictures without search parameters
-    {% if pictures %}
-        {% for picture in picture %}
-            <img src="/pictures/{{picture}}" />>
-        {% endfor %}
-    {% endif %}
-  </p>
+  {% for picture in pictures %}
+    <p><a href="/picture/{{picture}}">{{picture}}</a></p>
+  {% endfor %}
 {% endblock %}
