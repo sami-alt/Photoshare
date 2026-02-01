@@ -1,10 +1,14 @@
 {% extends "layout.html" %}
 
 {% block content %}
-    
-        <img src="/image/picture/{{picture}}"/>
-        <p>if not picture -></p>
-        <p>no picture available</p>
-    
-    
+        <img src="/image/picture/{{id}}"/>
+        <br>
+        {{info[0]}}
+        <br>
+        {{info[1]}}
+        <br>
+        {{info[2]}}
+        <form action="/remove/{{id}}" method="post">
+                <input type="submit" name="remove" value="Delete picture">
+        </form>
 {% endblock %}

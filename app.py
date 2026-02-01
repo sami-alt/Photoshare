@@ -16,7 +16,6 @@ def index():
         db = sqlite3.connect('database.db')
         user = db.execute('select id, username from user where username = ?',[loggedIn]).fetchone()
 
-
     return render_template('home.html', user=user)
 
 
@@ -103,17 +102,17 @@ def add_picture_to_db():
 @app.route('/picture/<int:id>')
 def one_picture(id):
     print('hui')
-    return render_template('picture.html',picture=id)
+    db = sqlite3.connect('database.db')
+    pic_info = db.execute('select name, description, date, user_id from picture where id = ?', [id]).fetchone()
+    return render_template('picture.html',id=id, info=pic_info)
 
 @app.route('/image/picture/<int:id>')
 def show_picture(id):
     db = sqlite3.connect('database.db')
     image = db.execute('select image from picture where id = ?',[id]).fetchone()
     if not image:
-        print('wah')
         flash('Something went wrong')
         return redirect('/pictures')
-    print('hai', image)
     response = make_response(bytes(image[0]))
     response.headers.set('Content-Type', 'image/png')
     return response
@@ -122,8 +121,24 @@ def show_picture(id):
 @app.route('/pictures')
 def pictures():
     db = sqlite3.connect('database.db')
-    pictures = db.execute('select id from picture').fetchall()
-    sendObj = [i for i in range(1,len(pictures) + 1)]
+    pictures = db.execute('select id, name, date from picture').fetchall()
+    print('pictures',pictures)
+    sendObj = [{'id':picture[0], 'name':picture[1], 'date':picture[2]} for picture in pictures]
+    
     print(sendObj)
     return render_template('pictures.html', pictures=sendObj)
 
+
+@app.route('/remove/<int:id>', methods=['POST'])
+def delete_picture(id):
+    print('try to remove')
+    db = sqlite3.connect('database.db')
+    db.execute('delete from picture where id = ?',[id])
+    db.commit()
+    db.close()
+
+    flash('Picture deleted')
+    return redirect('/')
+
+#to-do
+#modify picture object
