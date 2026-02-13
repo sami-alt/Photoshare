@@ -12,23 +12,21 @@
 </div>
 <div class="nav">
     <nav>
-        <ul>
-            <li><a href="/">Home</a></li> 
-            <li><a href="/pictures" >Pictures</a></li>
-            <li><a href="/add_picture">Add picture</a></li>
-            <li><a href="/search">Search</a></li>
-            {% if session['id'] %}
-            <li><a href="/my_pictures">My pictures</a></li>
-            <li><a href="/logout">Logout</a></li>
+            <a href="/">Home</a>
+            <a href="/pictures" >Pictures</a>
+            <a href="/add_picture">Add picture</a>
+            <a href="/search">Search</a>
+            <a href="/statistics" > </a>
+            {% if session.id %}
+            <a href="/my_pictures">My pictures</a>
+            <a href="/logout">Logout</a>
             {% else %}
-            <li><a href="/signin">Signin</a></li>
-             <li><a href="/login">Login</a></li>
-            {% endif %}
-        </ul>
-        
+            <a href="/signin">Signin</a>
+            <a href="/login">Login</a>
+            {% endif %}  
     </nav>
     {% if user %}
-      {{user[1]}}
+      {{user['username']}}
     {% endif %}
 </div>
 <div >{% with messages = get_flashed_messages(with_categories=true) %}

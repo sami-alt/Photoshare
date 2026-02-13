@@ -8,6 +8,7 @@
     Name: <input type="text" name="name" value="{{info['name']}}"/>
     Description: <input type="text" name="description" value="{{info['description']}}"/>
     Date <input type="text" name="date" value="{{info['date']}}">
+    <input type="hidden" name="csrf_token" value="session['csrf_token']"/>
     <input type="submit" value="Modify"/>
 </form>
 

@@ -2,11 +2,14 @@
 
 {% block content %}
 
-<form action="/add_new_picture" method="post" enctype="multipart/form-data">
+<form action="/add_new_picture" method="post" enctype="multipart/form-data" class="form">
     Picture: <input type="file" name="image" accept="image/*" />
     Name: <input type="text" name="name"/>
     Description: <input type="text" name="description"/>
     Date <input type="text" name="date" placeholder="dd.mm.yyyy">
+    Categories:
+    <input type="checkbox" >
+    <input type="hidden" name="csrf_token" value="session['csrf_token']"/>
     <input type="submit" value="Add picture"/>
 </form>
 
