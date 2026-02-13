@@ -21,8 +21,17 @@ create table comment(
     picture_id integer
 );
 
+create table picture_in_category(
+    id integer primary key,
+    category_id references categories(id),
+    picture_id references picture(id)
+);
+
 create table categories(
     id integer primary key,
     category_name text
 );
+
+
+
 

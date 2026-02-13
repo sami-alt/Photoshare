@@ -4,7 +4,15 @@ nav{
     color: blue;
 }
 
+.form{
+    display: flex;
+    flex-direction: column;
+}
 
+.test{
+    display: flex;
+    flex-direction: row;
+}
 
 .button {
     display: inline-block;

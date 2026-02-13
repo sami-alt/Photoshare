@@ -2,6 +2,7 @@ from flask import Flask
 from flask import render_template, redirect, flash, request, make_response, session, abort
 from werkzeug.security import generate_password_hash, check_password_hash
 import config
+import db
 import users
 import pictures
 import secrets
@@ -100,8 +101,14 @@ def add_picture_to_db():
     description = request.form['description']
     date = request.form['date']
     image = file.read()
+    categories = request.form.getlist('category')
 
     pictures.add_picture(session['id'], image, name, description, date)
+    picture_id = db.last_insert_id()
+    print('picture_id',picture_id)
+    for category in categories:
+        print('prii', category)
+        pictures.add_to_category(category, picture_id)
 
     return redirect('/')
 

@@ -41,4 +41,7 @@ def get_comments_by_id(picture_id):
     comments = db.query('select comment,user_id from comment where picture_id = ?', [picture_id], False)
     return comments
 
+def add_to_category(category_id,picture_id):
+     db.execute('insert into picture_in_category (category_id, picture_id) values (?,?)',[category_id, picture_id])
+
 #Admin features
