@@ -10,5 +10,19 @@ create table picture(
     image BLOB,
     name text,
     description text,
-    date text
+    date text,
+    category id references categories(id)
 );
+
+create table comment(
+    id integer primary key,
+    comment text,
+    user_id integer,
+    picture_id integer
+);
+
+create table categories(
+    id integer primary key,
+    category_name text
+);
+
