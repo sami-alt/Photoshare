@@ -1,6 +1,7 @@
 {% extends "layout.html" %}
 
 {% block content %}
+<div class="column">
 <h1>Pictures</h1>
 {% if pictures %}
   {% for picture in pictures %}
@@ -9,4 +10,5 @@
   {% else %}
     <p>No pictures found</p>
   {% endif %}
+  </div>
 {% endblock %}

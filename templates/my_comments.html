@@ -1,14 +1,17 @@
 {% extends "layout.html" %}
 
 {% block content %}
-Your comments
-{% if comments %}
-  {% for comment in comments %}
+<div class="column">
+
+    Your comments
+    {% if comments %}
+    {% for comment in comments %}
     <img src="/image/picture/{{comment['picture_id']}}" width="200"/>
     <p>{{comment.comment}}</p>
-  {% endfor %}
-  {% else %}
-  No comments made
-{% endif %}
-
+    {% endfor %}
+    {% else %}
+    No comments made
+    {% endif %}
+    
+</div>
 {% endblock %}
