@@ -25,11 +25,18 @@ def index():
 
 def require_login():
     if 'id' not in session:
+        print('login abort')
         abort(403)
 
 
 def check_csrf():
+    if 'csrf_token' not in session:
+        print('csrf 1')
+        abort(403)
     if request.form["csrf_token"] != session["csrf_token"]:
+        print('session token',session['csrf_token'])
+        print('from form',request.form['csrf_token'])
+        print('csrf 2')
         abort(403)
 
 @app.route('/login')
@@ -95,6 +102,7 @@ def add_picture_page():
 @app.route('/add_new_picture', methods=['POST'])
 def add_picture_to_db():
     require_login()
+    check_csrf()
     #add validation
     file = request.files['image']
     name = request.form['name']
@@ -153,7 +161,6 @@ def my_pictures():
 
 @app.route('/remove/<int:picture_id>', methods=['POST'])
 def delete_picture(picture_id):
-    print('try to remove')
     pictures.delete_picture(picture_id)
     flash('Picture deleted','success')
     return redirect('/')
@@ -169,6 +176,8 @@ def modify_picture(picture_id):
 
 @app.route('/modify_picture/<int:picture_id>', methods=['POST'])
 def modify_picture_info(picture_id):
+    require_login()
+    check_csrf()
     name = request.form['name']
     description = request.form['description']
     date = request.form['date']
@@ -210,6 +219,8 @@ def category_search():
 
 @app.route('/add_comment_to/<int:picture_id>', methods=['POST'])
 def add_comment_to_picture(picture_id):
+    require_login()
+    check_csrf()
     comment = request.form['comment']
     pictures.add_comment_by_id(picture_id, session['id'],comment)
     return redirect('/picture/' + str(picture_id))
@@ -229,9 +240,6 @@ def show_statistics():
     picture_data = pictures.get_all()
     comment_data = pictures.get_comments()
 
-    print(user_data)
-    print(picture_data)
-    print(comment_data)
     statistics = {'users':len(user_data) if user_data else 0, 'pictures':len(picture_data)if picture_data else 0, 'comments':len(comment_data)if comment_data else 0}
     return render_template('/statistics.html', statistics=statistics)
 
