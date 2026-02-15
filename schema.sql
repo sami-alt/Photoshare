@@ -11,7 +11,7 @@ create table picture(
     name text,
     description text,
     date text,
-    category id references categories(id)
+    category_id references categories(id)
 );
 
 create table comment(

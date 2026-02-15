@@ -2,7 +2,11 @@
 
 {% block content %}
 <h1>Pictures</h1>
+{% if pictures %}
   {% for picture in pictures %}
     <p><a href="/picture/{{picture['id']}}">{{picture['name']}}</a></p>
   {% endfor %}
+  {% else %}
+    <p>No pictures found</p>
+  {% endif %}
 {% endblock %}

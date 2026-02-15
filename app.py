@@ -191,7 +191,18 @@ def paramater_search():
     results = pictures.search_pictures(parameter)
     found = [{'id':picture[0], 'name':picture[1], 'date':picture[2]} for picture in results]
 
-    print(found)
+    return render_template('pictures.html', pictures=found)
+
+@app.route('/search_with_categories')
+def category_search():
+    found = []
+    categories = request.args.getlist('category')
+
+    for categody in categories:
+        temp = []
+        result = pictures.pictures_by_category(categody)
+        temp = [dict(picture) for picture in  result]
+        found.extend(temp)
 
     return render_template('pictures.html', pictures=found)
 
@@ -202,6 +213,27 @@ def add_comment_to_picture(picture_id):
     comment = request.form['comment']
     pictures.add_comment_by_id(picture_id, session['id'],comment)
     return redirect('/picture/' + str(picture_id))
+
+
+@app.route('/my_comments')
+def my_comments():
+    comments = None
+    comments = pictures.get_comment_by_user_id(session['id'])
+    return render_template('my_comments.html', comments=comments)
+
+@app.route('/statistics')
+def show_statistics():
+    statistics = None
+
+    user_data = users.get_users()
+    picture_data = pictures.get_all()
+    comment_data = pictures.get_comments()
+
+    print(user_data)
+    print(picture_data)
+    print(comment_data)
+    statistics = {'users':len(user_data) if user_data else 0, 'pictures':len(picture_data)if picture_data else 0, 'comments':len(comment_data)if comment_data else 0}
+    return render_template('/statistics.html', statistics=statistics)
 
 #Admin functionalities
 

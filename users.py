@@ -14,7 +14,7 @@ def create_user(username, password):
     return None
 
 def get_users():
-    users = db.query("select id, name, password from user", True)
+    users = db.query("select id, username, password from user", [],True)
     return users
 
 #Admin access

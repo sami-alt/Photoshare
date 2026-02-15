@@ -14,11 +14,12 @@
     <nav>
             <a href="/">Home</a>
             <a href="/pictures" >Pictures</a>
-            <a href="/add_picture">Add picture</a>
             <a href="/search">Search</a>
-            <a href="/statistics"></a>
+            <a href="/statistics">Statistics</a>
             {% if session.id %}
+            <a href="/add_picture">Add picture</a>
             <a href="/my_pictures">My pictures</a>
+            <a href="/my_comments"> My comments</a>
             <a href="/logout">Logout</a>
             {% else %}
             <a href="/signin">Signin</a>
