@@ -18,13 +18,13 @@ create table comment(
     id integer primary key,
     comment text,
     user_id integer,
-    picture_id integer
+    picture_id integer references picture(id) on delete cascade
 );
 
 create table picture_in_category(
     id integer primary key,
     category_id references categories(id),
-    picture_id references picture(id)
+    picture_id references picture(id) on delete cascade
 );
 
 create table categories(

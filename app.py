@@ -25,18 +25,15 @@ def index():
 
 def require_login():
     if 'id' not in session:
-        print('login abort')
+       
         abort(403)
 
 
 def check_csrf():
     if 'csrf_token' not in session:
-        print('csrf 1')
         abort(403)
     if request.form["csrf_token"] != session["csrf_token"]:
-        print('session token',session['csrf_token'])
-        print('from form',request.form['csrf_token'])
-        print('csrf 2')
+
         abort(403)
 
 @app.route('/login')
@@ -67,12 +64,12 @@ def login_user():
         flash('Username or password does not match')
         return redirect('/login')
     flash(f'Welcome {username}')
-    print(user[0])
+
 
     session['id'] = user['id']
     session['username'] = user['username']
     session['csrf_token'] = secrets.token_hex(16)
-    print('sessions',session['username'], session['id'])
+ 
 
     return redirect('/')
 
@@ -113,9 +110,9 @@ def add_picture_to_db():
 
     pictures.add_picture(session['id'], image, name, description, date)
     picture_id = db.last_insert_id()
-    print('picture_id',picture_id)
+  
     for category in categories:
-        print('prii', category)
+     
         pictures.add_to_category(category, picture_id)
 
     return redirect('/')
@@ -126,11 +123,10 @@ def one_picture(picture_id):
     pic_info = pictures.get_picture(picture_id)
     results = pictures.get_comments_by_id(picture_id)
     comments = None
-    print(len(results) if results else 'Empty')
+   
     if results:
         comments = [{'comment':result['comment'], 'owner':users.get_user(result['user_id'],None)['username']} for result in results]
-        for comment in comments:
-            print(comment)
+
     
     return render_template('picture.html',id=picture_id, info=pic_info, comments=comments)
 
@@ -148,19 +144,24 @@ def show_picture(picture_id):
 @app.route('/pictures')
 def get_pictures():
     all = pictures.get_all()
-    print('pictures',pictures)
-    send_obj = [{'id':picture[0], 'name':picture[1], 'date':picture[2]} for picture in all]
+    send_obj = None
+    if all:
+        send_obj = [{'id':picture[0], 'name':picture[1], 'date':picture[2]} for picture in all]
 
     return render_template('pictures.html', pictures=send_obj)
 
 @app.route('/my_pictures')
 def my_pictures():
     pictures_by_user = pictures.get_pictures_by_user_id(session['id'])
-    my_pics = [{'id':picture[0], 'name':picture[1], 'date':picture[2]} for picture in pictures_by_user]
+    my_pics = None
+    if pictures_by_user:
+        my_pics = [{'id':picture[0], 'name':picture[1], 'date':picture[2]} for picture in pictures_by_user]
     return render_template("pictures.html", pictures=my_pics)
 
 @app.route('/remove/<int:picture_id>', methods=['POST'])
 def delete_picture(picture_id):
+    check_csrf()
+    print(picture_id)
     pictures.delete_picture(picture_id)
     flash('Picture deleted','success')
     return redirect('/')
@@ -171,7 +172,7 @@ def modify_picture(picture_id):
 
     result = pictures.get_picture(picture_id)
     info = {'name':result[0], 'description':result[1], 'date':result[2]}
-    print(info)
+
     return render_template('modify.html', info=info, id=picture_id)
 
 @app.route('/modify_picture/<int:picture_id>', methods=['POST'])

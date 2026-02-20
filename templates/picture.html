@@ -11,6 +11,7 @@
         {% if session %}
         <form action="/remove/{{id}}" method="post">
                 <input class="button" type="submit" name="remove" value="Delete picture">
+                <input type="hidden" name="csrf_token" value="{{session['csrf_token']}}"/>
         </form>
         <a class="button" href="/modify/{{id}}">Modify</a>
         <form action="/add_comment_to/{{id}}" method="post">
