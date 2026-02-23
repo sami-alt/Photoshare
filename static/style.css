@@ -5,51 +5,69 @@
 
 /* Layout style */
 
-h1{
-    margin:0;
-}
 
 body{
-    height: 90vh;
+    height: 100%;
+    width: 100%;
     padding: 0;
     margin: 0;
 }
 
 header{
-    
     height: 10vh;
-    
     width: 100vw;
-    background-color: blue;
+    display: flex;
+    border-style: solid;
+    border-color: blue;
 }
 
 nav{
-    display: flexbox;
+    display: flex;
     flex-direction: row;
     color: blue;
 }
 
-main{
-   height: 80vh;
-    margin-left: 20%;
-    margin-right: 20%;
-    background-color: red;
+.message{
+    height: 5vh;
+    width: 100vw;
+    border-style: solid;
+    border-color: green;
+}
+
+
+
+main {
+    min-height: 75vh;  /* käytä min-height height:n sijaan */
+    max-width: 90vw;
+    margin-left: 10%;
+    margin-right: 10%;
+    border-style: solid;
+    border-color: red;
 }
 
 footer{
     height: 10vh;
     width: 100vw;
-    background-color: blue;
+    border-style: solid;
+    border-color: blue;
 }
 
+/* main-elementin korkeus */
 
 
 /* Utiluty style */
 
-html{
+/* Korjaa body ja html */
+html, body {
+    font-family: 'Courier New', monospace;
+    height: 100%;
+    width: 100%;
     margin: 0;
     padding: 0;
 }
+
+
+
 
 *{
     box-sizing: border-box;
@@ -59,9 +77,23 @@ html{
     display: flex;
     flex-direction: column;
 }
-    
+
 .column{
     display: flex;
     flex-direction: column;
 }
 
+
+h1{
+    margin:0;
+}
+
+p{
+    margin-bottom: 0;
+}
+
+.content img {
+    max-width: 35%;
+    height: auto;
+    display: block;  /* Poistaa ylimääräisen tilan kuvan alta */
+}

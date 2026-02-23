@@ -1,49 +1,52 @@
 <!DOCTYPE html>
 <html>
 
-<head>
-  <title>{% block title %}{% endblock %}</title>
-  <link rel="stylesheet" href="../static/style.css">
-</head>
-
-<body>
-<header class="header">
-    <h1>PhotoShare</h1>
-</header>
-<main>
-
-  <div>
-    <nav>
-      <a href="/">Home</a>
-      <a href="/pictures" >Pictures</a>
-            <a href="/search">Search</a>
-            <a href="/statistics">Statistics</a>
-            {% if session.id %}
-            <a href="/add_picture">Add picture</a>
-            <a href="/my_pictures">My pictures</a>
-            <a href="/my_comments"> My comments</a>
-            <a href="/logout">Logout</a>
-            {% else %}
-            <a href="/signin">Signin</a>
-            <a href="/login">Login</a>
-            {% endif %}  
-          </nav>
-          {% if user %}
+  <head>
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="../static/style.css">
+  </head>
+  
+  <body>
+    <header class="header">
+      <h1>PhotoShare</h1>
+      <nav>
+        <a href="/">Home</a>
+        <a href="/pictures" >Pictures</a>
+        <a href="/search">Search</a>
+        <a href="/statistics">Statistics</a>
+        {% if session.id %}
+          <a href="/add_picture">Add picture</a>
+          <a href="/my_pictures">My pictures</a>
+          <a href="/my_comments"> My comments</a>
+          <a href="/logout">Logout</a>
+        {% else %}
+          <a href="/signin">Signin</a>
+          <a href="/login">Login</a>
+        {% endif %}  
+        </nav>
+        {% if user %}
           {{user['username']}}
+        {% endif %}
+    </header>
+    <div class="message">        
+        <p>message shows here</p>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            {% if messages[0][0] == 'success'  %}
+              <h1 style="color: green;">{{messages[0][1]}}</h1>
+            {% else %}
+              <h1 style="color: red;">{{messages[0][1]}}</h1>
+            {% endif %}
           {% endif %}
-        </div>
-        <div >{% with messages = get_flashed_messages(with_categories=true) %}
-          {% if messages  %}
-          <h1 style="color: green;">{{messages[0][1]}}</h1>
-          {% endif %}
-          {% endwith %}
-        </div>
-        <div class="content">
-          {% block content %}{% endblock %}
-        </div>
-      </main>
-  <footer>
-    THIS IS FOOTER
-  </footer>
-</body>
+        {% endwith %}
+    </div>
+    <main>
+      <div class="content">
+        {% block content %}{% endblock %}
+      </div>
+    </main>
+    <footer>
+      THIS IS FOOTER
+    </footer>
+  </body>
 </html>
