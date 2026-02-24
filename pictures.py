@@ -17,6 +17,10 @@ def pictures_by_category(category_id):
                              where c.id = ?''',[category_id], False)
     return pictures
 
+def get_pictures_by_quantity(num_of_pictures):
+    pictures = db.query('select id, name from picture limit ?',[num_of_pictures], False)
+    return pictures
+
 def get_all():
     pictures = db.query('select id, name, date from picture',[], False)
     return pictures
@@ -53,6 +57,10 @@ def get_comments_by_id(picture_id):
 
 def get_comment_by_user_id(user_id):
     comments = db.query('select comment, picture_id from comment where user_id = ?',[user_id], False)
+    return comments
+
+def get_comments_by_quantity(num_of_comments):
+    comments = db.query('select commenet, picture_id from comment limit ?', [num_of_comments], False)
     return comments
 
 def add_to_category(category_id,picture_id):
