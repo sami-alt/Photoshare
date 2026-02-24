@@ -1,10 +1,29 @@
-{% extends 'layout.html' %}
+{% extends "layout.html" %}
 
-<body>
-  <h1>Welcome {% user_name %}</h1>
-  <p>
-    Your pictures
-  </p>
-</body>
+{% block content %}
 
-</html>
+<div>
+    Users profile picture
+</div>
+<div>
+    User info
+    Username:
+    Pictures added:
+    Comments made:
+</div>
+<div>
+    {% if pcitures %}
+        {% for picture in pictures %}
+            {% pciture %}
+        {% endfor %}
+    {% endif %}
+</div>
+<div>
+    {% if comments %}
+        {% for comment in comments %}
+            {% comment %}
+        {% endfor %}
+    {% endif %}
+</div>
+
+{% endblock %}

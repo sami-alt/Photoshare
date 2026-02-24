@@ -1,16 +1,29 @@
 {% extends "layout.html" %}
 
 {% block content %}
-<div class="test">
-  <h1>Frontpage</h1>
-  <p>
-    frontpage
-  </p>
-  <p>
-    1
-  </p>
-  <p>
-    2
-  </p>
+<div>
+  Last 5 pictures added
+  {% if pictures %}
+    {% for picture in pictures %}
+      <img src="/image/picture/{{picture['id']}}">
+      {{picture['name']}}
+    {% endfor %}
+    {% else %}
+      No pictures added yet
+  {% endif %}
+</div>
+<div>
+  Last 5 comments made
+  {% if  comments%}
+    {% for comment in comments %}
+      {{comment['comment']}}
+      <a href="/picture/{{comment['picture_id']}}">Show picture</a>
+    {% endfor %}
+  {% else %}
+      No comments added yet
+  {% endif %}
+</div>
+<div>
+
 </div>
 {% endblock %}

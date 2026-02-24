@@ -5,7 +5,7 @@
     <title>{% block title %}{% endblock %}</title>
     <link rel="stylesheet" href="../static/style.css">
   </head>
-  
+
   <body>
     <header class="header">
       <h1>PhotoShare</h1>
@@ -24,12 +24,13 @@
           <a href="/login">Login</a>
         {% endif %}  
         </nav>
-        {% if user %}
-          {{user['username']}}
+        {% if session %}
+          <h2>{{session['username']}}</h2>
+        {% else %}
+          no user
         {% endif %}
     </header>
     <div class="message">        
-        <p>message shows here</p>
         {% with messages = get_flashed_messages(with_categories=true) %}
           {% if messages %}
             {% if messages[0][0] == 'success'  %}

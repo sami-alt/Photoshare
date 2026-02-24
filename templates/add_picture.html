@@ -3,8 +3,8 @@
 {% block content %}
 
 <form action="/add_new_picture" method="post" enctype="multipart/form-data" class="form">
-    Picture: <input type="file" name="image" accept="image/*" />
-    Name: <input type="text" name="name"/>
+    Picture: <input type="file" name="image" accept="image/*"  required/>
+    Name: <input type="text" name="name" required/>
     Description: <input type="text" name="description"/>
     Date <input type="text" name="date" placeholder="dd.mm.yyyy">
     Categories:

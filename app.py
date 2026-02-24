@@ -7,6 +7,8 @@ import users
 import pictures
 import secrets
 
+import sqlite3
+
 app = Flask(__name__)
 app.secret_key = config.secret_key
 
@@ -18,7 +20,20 @@ def index():
     else:
         user = None
 
-    return render_template('home.html', user=user)
+    comments_from_db = None
+    pictures_from_db = None
+    
+    pictures_from_db = pictures.get_pictures_by_quantity(5)
+    if pictures_from_db:
+        latest_pictures = [dict(picture) for picture in pictures_from_db]
+    comments_from_db = pictures.get_comments_by_quantity(5)
+    if comments_from_db:
+        latest_comments = [dict(comment) for comment in comments_from_db]
+
+    print(latest_comments)
+    print(latest_pictures)
+
+    return render_template('home.html', user=user, comments=latest_comments, pictures=latest_pictures)
 
 
 #User auth functions
@@ -61,9 +76,9 @@ def login_user():
     password = request.form['password']
     user = users.get_user(None, username)
     if not user or not check_password_hash(user['password'], password):
-        flash('Username or password does not match')
+        flash('Username or password does not match', 'failure')
         return redirect('/login')
-    flash(f'Welcome {username}')
+    flash(f'Welcome {username}', 'success')
 
 
     session['id'] = user['id']
@@ -83,11 +98,19 @@ def add_user():
         flash('Empty username or password')
         return redirect('/signin')
     if not password1 == password2:
-        flash('Password do not match!')
+        flash('Password do not match!', 'failure')
         return redirect('/signin')
     password = generate_password_hash(password1)
-    users.create_user(username, password)
-    flash('New user created')
+    try:
+        users.create_user(username, password)
+    except sqlite3.IntegrityError:
+        flash('Username already taken','failure')
+        return render_template('signin.html')
+    flash('New user created', 'success')
+    return redirect('/')
+
+@app.route('/user_picture/<int:user_id>')
+def get_user_image(user_id):
     return redirect('/')
 
 #picture functions
@@ -112,11 +135,29 @@ def add_picture_to_db():
     picture_id = db.last_insert_id()
   
     for category in categories:
-     
         pictures.add_to_category(category, picture_id)
 
+
+    flash('Picture added', 'success')
     return redirect('/')
 
+def validate_date(date):
+    valid = None
+    date = date.split('.')
+
+    if date[0].isnumeric() and date[1].isnumeric() and date[3].isnumeric():
+        valid = True
+    else:
+        valid = False
+
+    if valid and len(date[0]) == 2 and len(date[1]) == 2 and len(date[2]) == 2:
+        if int(date[0][2]) <= 31 and int(date[1][0]) <= 1 and len(date[2]) == 4:
+            valid = True
+            return
+    else:
+        valid = False
+
+    return valid
 
 @app.route('/picture/<int:picture_id>')
 def one_picture(picture_id):

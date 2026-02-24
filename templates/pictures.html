@@ -5,6 +5,7 @@
 <h1>Pictures</h1>
 {% if pictures %}
   {% for picture in pictures %}
+    <img src="/image/picture/{{picture['id']}}" width="100"/>
     <p><a href="/picture/{{picture['id']}}">{{picture['name']}}</a></p>
   {% endfor %}
   {% else %}

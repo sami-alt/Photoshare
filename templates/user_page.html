@@ -6,12 +6,23 @@
 </div>
 <div>
     User info
+    Username:
+    Pictures added:
+    Comments made:
 </div>
 <div>
-    Users pictures
+    {% if pcitures %}
+        {% for picture in pictures %}
+            {% pciture %}
+        {% endfor %}
+    {% endif %}
 </div>
 <div>
-    Users comments
+    {% if comments %}
+        {% for comment in comments %}
+            {% comment %}
+        {% endfor %}
+    {% endif %}
 </div>
 
 {% endblock %}

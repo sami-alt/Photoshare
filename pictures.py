@@ -60,7 +60,7 @@ def get_comment_by_user_id(user_id):
     return comments
 
 def get_comments_by_quantity(num_of_comments):
-    comments = db.query('select commenet, picture_id from comment limit ?', [num_of_comments], False)
+    comments = db.query('select comment, picture_id from comment limit ?', [num_of_comments], False)
     return comments
 
 def add_to_category(category_id,picture_id):
