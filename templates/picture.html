@@ -1,8 +1,14 @@
 {% extends "layout.html" %}
 {% block content %}
 <div id="picture">
-    {{info['name']}}
+    <h3>
+        {{info['name']}}
+    </h3>
+            
     <img src="/image/picture/{{id}}"/>
+    <div class="text">
+        <p>{{info['description']}}</p>
+    </div>
     {% if session %}
         <form class="form" action="/remove/{{id}}" method="post">
             <input class="button" type="submit" name="remove" value="Delete picture">
@@ -10,20 +16,25 @@
         </form>
         <a class="button" href="/modify/{{id}}">Modify</a>
         <form class="form" action="/add_comment_to/{{id}}" method="post">
-            <textarea name="comment"></textarea>
+            <textarea name="comment" rows="5" cols="20"></textarea>
             <input type="hidden" name="csrf_token" value="{{session['csrf_token']}}"/>
             <input class="button" type="submit" name="add_comment" value="Comment">
         </form>
-        <p>Comments</p>
-        {% if comments %}
-            {% for comment in comments %}
-                <p>Comment</p>
-                <p>{{comment['comment']}}</p>
-                <p>By User {{'You' if comment.owner == session['username'] else comment.owner}}</p>
-            {% endfor %}
-        {% else %}
-                no comments
-        {% endif %}       
+        <div class="text">
+            <div></div>
+                    <h4>Comments</h4>
+                    {% if comments %}
+                    {% for comment in comments %}
+                    <p>Comment</p>
+                    <p>{{comment['comment']}}</p>
+                    <p>{{'By You' if comment.owner == session['username'] else 'By ' + comment.owner}}</p>
+                    <div class="divider"></div>
+                    {% endfor %}
+                    {% else %}
+                    <p>Be first to comment on this picture</p>
+                    {% endif %}       
+                </div>
+        </div>
     {% endif %}
 </div>
 {% endblock %}

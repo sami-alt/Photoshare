@@ -229,7 +229,25 @@ footer{
 
 /* Picture */
 #picture{
+
+}
+#picture img{
+    margin: auto;
+}
+#picture h3{
+    margin-left: 45%;
+}
+
+#picture .text, h4{
+    display: flex;
+    justify-content: center;
     align-items: center;
+}
+
+#picture a{
+    margin-left: 30%;
+    min-width: 160px;
+    width: 40%;
 }
 
 /* Utility style */
@@ -257,7 +275,6 @@ html, body {
 }
 
 .button{
-
     margin-top: 10px;
     display: inline-block;
     outline: none;
