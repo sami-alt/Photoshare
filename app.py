@@ -194,8 +194,7 @@ def one_picture(picture_id):
     if results:
         comments = [{'comment':result['comment'], 'owner':users.get_user(result['user_id'],None)['username']} for result in results]
 
-    
-    return render_template('picture.html',id=picture_id, info=pic_info, comments=comments)
+    return render_template('picture.html',id=picture_id, info=dict(pic_info), comments=comments)
 
 @app.route('/image/picture/<int:picture_id>')
 def show_picture(picture_id):

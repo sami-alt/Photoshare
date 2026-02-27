@@ -1,12 +1,16 @@
 {% extends "layout.html" %}
 
 {% block content %}
-<div class="column">
+<div id="pictures">
 <h1>Pictures</h1>
 {% if pictures %}
   {% for picture in pictures %}
-    <img src="/image/picture/{{picture['id']}}" width="100"/>
-    <p><a href="/picture/{{picture['id']}}">{{picture['name']}}</a></p>
+  <p>
+    {{picture['name']}}
+  </p>
+  <a href="/picture/{{picture['id']}}">
+        <img src="/image/picture/{{picture['id']}}"/>
+  </a>
   {% endfor %}
   {% else %}
     <p>No pictures found</p>

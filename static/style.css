@@ -111,8 +111,12 @@ footer{
 #home .block #block_info{
     display: flex;
     flex-direction: column;
-    margin-bottom: 10px;
 } 
+
+#home h3{
+    margin-top: 0;
+    margin-bottom: 10px;
+}
 
 /*Login*/
 
@@ -213,7 +217,20 @@ footer{
     flex-direction: column;
 }
 
+/* Pictures */
 
+#pictures{
+    padding-left: 40%;
+}
+
+#pictures h1{
+    margin-bottom: 5%;
+}
+
+/* Picture */
+#picture{
+    align-items: center;
+}
 
 /* Utility style */
 
@@ -307,4 +324,18 @@ p{
 
 .divider{
     border-top: solid grey 1px;
+    margin-bottom: 25px;
+}
+
+a:link{
+    text-decoration: none;
+    
+}
+
+a:visited{
+    color: black;
+}
+
+input[type="file"]{
+    display: none;
 }

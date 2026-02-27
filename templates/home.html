@@ -4,12 +4,18 @@
 <div id="home">
 
   <div class="block">
-    Last 5 pictures added
+    <h3>
+      Last 5 pictures added
+    </h3>
     {% if pictures %}
       {% for picture in pictures %}
         <div id="block_info">
-          <img src="/image/picture/{{picture['id']}}">
-          {{picture['name']}}
+          <p>
+            {{picture['name']}}
+          </p>
+          <a href="/picture/{{picture['id']}}">
+            <img src="/image/picture/{{picture['id']}}">
+          </a>
         </div>
         <div class="divider"></div>
       {% endfor %}
@@ -18,7 +24,9 @@
     {% endif %}
   </div>
   <div class="block">
-    Last 5 comments made
+    <h3>
+      Last 5 comments made
+    </h3>
     {% if  comments%}
       {% for comment in comments %}
       <div id="block_info">

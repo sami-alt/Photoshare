@@ -1,32 +1,29 @@
 {% extends "layout.html" %}
-
 {% block content %}
-        <img src="/image/picture/{{id}}"/>
-        <br>
-        {{info[0]}}
-        <br>
-        {{info[1]}}
-        <br>
-        {{info[2]}}
-        {% if session %}
+<div id="picture">
+    {{info['name']}}
+    <img src="/image/picture/{{id}}"/>
+    {% if session %}
         <form class="form" action="/remove/{{id}}" method="post">
-                <input class="button" type="submit" name="remove" value="Delete picture">
-                <input type="hidden" name="csrf_token" value="{{session['csrf_token']}}"/>
+            <input class="button" type="submit" name="remove" value="Delete picture">
+            <input type="hidden" name="csrf_token" value="{{session['csrf_token']}}"/>
         </form>
         <a class="button" href="/modify/{{id}}">Modify</a>
         <form class="form" action="/add_comment_to/{{id}}" method="post">
-                <textarea name="comment"></textarea>
-                <input type="hidden" name="csrf_token" value="{{session['csrf_token']}}"/>
-                <input class="button" type="submit" name="add_comment" value="Comment">
+            <textarea name="comment"></textarea>
+            <input type="hidden" name="csrf_token" value="{{session['csrf_token']}}"/>
+            <input class="button" type="submit" name="add_comment" value="Comment">
         </form>
         <p>Comments</p>
         {% if comments %}
-                {% for comment in comments %}
-                        <p>Comment</p>
-                        <p>{{comment['comment']}}</p>
-                        <p>By User {{'You' if comment.owner == session['username'] else comment.owner}}</p>
-                {% endfor %}
-        {% endif %}
-
-        {% endif %}
+            {% for comment in comments %}
+                <p>Comment</p>
+                <p>{{comment['comment']}}</p>
+                <p>By User {{'You' if comment.owner == session['username'] else comment.owner}}</p>
+            {% endfor %}
+        {% else %}
+                no comments
+        {% endif %}       
+    {% endif %}
+</div>
 {% endblock %}
