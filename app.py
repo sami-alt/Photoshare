@@ -265,7 +265,8 @@ def paramater_search():
     parameter = request.args.get('parameter')
 
     results = pictures.search_pictures(parameter)
-    found = [{'id':picture[0], 'name':picture[1], 'date':picture[2]} for picture in results]
+    if results:
+        found = [{'id':picture[0], 'name':picture[1], 'date':picture[2]} for picture in results]
 
     return render_template('pictures.html', pictures=found)
 
@@ -277,7 +278,8 @@ def category_search():
     for categody in categories:
         temp = []
         result = pictures.pictures_by_category(categody)
-        temp = [dict(picture) for picture in  result]
+        if result:
+            temp = [dict(picture) for picture in  result]
         found.extend(temp)
 
     return render_template('pictures.html', pictures=found)
