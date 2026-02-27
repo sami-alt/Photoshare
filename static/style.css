@@ -261,9 +261,15 @@ footer{
     width: 40%;
 }
 
+
+/* Modfify */
+
+#modify img{
+    margin: auto;
+}
+
 /* Utility style */
 
-/* Korjaa body ja html */
 html, body {
     font-family: 'Courier New', monospace;
     height: 100%;

@@ -2,14 +2,15 @@
 
 {% block content %}
 
-
-<img src="/image/picture/{{id}}"/>
-<form action="/modify_picture/{{id}}" method="post">
-    Name: <input type="text" name="name" value="{{info['name']}}"/>
-    Description: <input type="text" name="description" value="{{info['description']}}"/>
-    Date <input type="text" name="date" value="{{info['date']}}">
-    <input type="hidden" name="csrf_token" value="{{session['csrf_token']}}"/>
-    <input type="submit" value="Modify"/>
-</form>
+<div id="modify">
+    <img src="/image/picture/{{id}}"/>
+    <form class="form" action="/modify_picture/{{id}}" method="post">
+        Name: <input class="input" type="text" name="name" value="{{info['name']}}"/>
+        Description: <input class="input" type="text" name="description" value="{{info['description']}}"/>
+        Date <input class="input" type="text" name="date" value="{{info['date']}}">
+        <input  type="hidden" name="csrf_token" value="{{session['csrf_token']}}"/>
+        <input class="button" type="submit" value="Modify"/>
+    </form>
+</div>
 
 {% endblock %}
