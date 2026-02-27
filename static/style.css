@@ -235,7 +235,10 @@ footer{
     margin: auto;
 }
 #picture h3{
-    margin-left: 45%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
 }
 
 #picture .text, h4{
@@ -243,6 +246,14 @@ footer{
     justify-content: center;
     align-items: center;
 }
+
+
+#date{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 
 #picture a{
     margin-left: 30%;
@@ -341,6 +352,7 @@ p{
 
 .divider{
     border-top: solid grey 1px;
+    margin-top: 5px;
     margin-bottom: 25px;
 }
 

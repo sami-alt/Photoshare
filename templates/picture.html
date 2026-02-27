@@ -7,7 +7,13 @@
             
     <img src="/image/picture/{{id}}"/>
     <div class="text">
-        <p>{{info['description']}}</p>
+        <div>
+
+                <p>{{info['description']}}</p>
+                <div id="date">
+                        <p>{{info['date']}}</p>
+                </div>
+        </div>
     </div>
     {% if session %}
         <form class="form" action="/remove/{{id}}" method="post">
@@ -21,7 +27,7 @@
             <input class="button" type="submit" name="add_comment" value="Comment">
         </form>
         <div class="text">
-            <div></div>
+            <div>
                     <h4>Comments</h4>
                     {% if comments %}
                     {% for comment in comments %}

@@ -249,7 +249,7 @@ def modify_picture_info(picture_id):
     description = request.form['description']
     date = request.form['date']
     pictures.modify_picture(name, description, date, picture_id)
-    flash('Picture info modified')
+    flash('Picture info modified', 'success')
     return redirect('/')
 
 
