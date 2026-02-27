@@ -1,22 +1,33 @@
 {% extends "layout.html" %}
 
 {% block content %}
-    <p>Search by keyword in name or description</p>
-    <form action="search_with_parameter" method="get">
-        <input type="text" name="parameter" placeholder='ex. "Sundown" or "friends" '>
-        <input type="submit" value="Search">
-    </form>
-    <p>Search by category</p>
-    <form action="search_with_categories" method="get">
-    <input type="checkbox" id="portrait" name="category" value="1">
-    <label for="portrait">Portrait</label>
-    <input type="checkbox" id="view" name="category" value="2">
-    <label for="view">View</label>
-    <input type="checkbox" id="animal" name="category" value="3">
-    <label for="animal">Animal</label>
-    <input type="checkbox" id="people" name="category" value="4">
-    <label for="people">People</label>
-    <input type="submit" value="Search"/>
-    </form>
+    <div id="search">
 
+        <p>Search by keyword in name or description</p>
+        <form class="form" action="search_with_parameter" method="get">
+            <input class="input" type="text" name="parameter" placeholder='ex. "Sundown" or "friends" ' width="20%">
+            <input class="button" type="submit" value="Search">
+        </form>
+        <p>Search by category</p>
+        <form class="form" action="search_with_categories" method="get">
+            <label for="portrait">
+                <input type="checkbox" id="portrait" name="category" value="1">
+                Portrait
+            </label>
+            <label for="view">
+                <input type="checkbox" id="view" name="category" value="2">
+                View
+            </label>
+            <label for="animal">
+                <input type="checkbox" id="animal" name="category" value="3">
+                Animal
+            </label>
+            <label for="people">
+                <input type="checkbox" id="people" name="category" value="4">
+                People
+            </label>
+            <input class="button" type="submit" value="Search"/>
+        </form>
+        
+    </div>
 {% endblock %}

@@ -1,8 +1,14 @@
 create table user(
     id integer primary key,
-    username text,
+    username text unique,
     password text
 );
+
+create table user_picture(
+    id integer primary key,
+    user_picture BLOB,
+    user_id references user(id)
+)
 
 create table picture(
     id integer primary key,
@@ -31,6 +37,7 @@ create table categories(
     id integer primary key,
     category_name text
 );
+
 
 
 

@@ -2,14 +2,14 @@
 
 {% block content %}
 
-    <form action="add_user_action" method="post">
+    <form id="signin" action="add_user_action" method="post">
         <p>username</p>
-        <input type="text" name="username">
+        <input class="input" type="text" name="username">
         <p>password</p>
-        <input type="password" name="password1">
+        <input class="input" type="password" name="password1">
         <p>password again</p>
-        <input type="password" name="password2">
-        <input type="submit" value="Create">
+        <input class="input" type="password" name="password2">
+        <input class="button" type="submit" value="Create">
     </form>
 
 {% endblock %}

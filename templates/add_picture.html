@@ -2,11 +2,11 @@
 
 {% block content %}
 
-<form action="/add_new_picture" method="post" enctype="multipart/form-data" class="form">
+<form class="form" action="/add_new_picture" method="post" enctype="multipart/form-data" class="form">
     Picture: <input type="file" name="image" accept="image/*"  required/>
-    Name: <input type="text" name="name" required/>
-    Description: <input type="text" name="description"/>
-    Date <input type="text" name="date" placeholder="dd.mm.yyyy">
+    Name: <input class="input" type="text" name="name" required/>
+    Description: <input class="input type="text" name="description"/>
+    Date <input class="input" type="text" name="date" placeholder="dd.mm.yyyy">
     Categories:
     <input type="checkbox" id="portrait" name="category" value="1">
     <label for="portrait">Portrait</label>
@@ -17,7 +17,7 @@
     <input type="checkbox" id="people" name="category" value="4">
     <label for="people">People</label>
     <input type="hidden" name="csrf_token" value="{{session['csrf_token']}}"/>
-    <input type="submit" value="Add picture"/>
+    <input class="button" type="submit" value="Add picture"/>
 </form>
 
 {% endblock %}

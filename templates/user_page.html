@@ -1,28 +1,39 @@
 {% extends "layout.html" %}
 
 {% block content %}
-<div>
-    Users profile picture
-</div>
-<div>
-    User info
-    Username:
-    Pictures added:
-    Comments made:
-</div>
-<div>
-    {% if pcitures %}
-        {% for picture in pictures %}
-            {% pciture %}
-        {% endfor %}
-    {% endif %}
-</div>
-<div>
-    {% if comments %}
-        {% for comment in comments %}
-            {% comment %}
-        {% endfor %}
-    {% endif %}
+<div id="user_page">
+    <div>   
+            {% if image %}
+                <img>
+            {% else %}
+                <p>No picture</p>
+            {% endif %}
+    </div>
+    <div>
+        User info
+        Username:
+        Pictures added:
+        Comments made:
+    </div>
+    <div>
+        {% if pictures %}
+            {% for picture in pictures %}
+                  <p><a href="/picture/{{picture['id']}}">{{picture['name']}}</a></p>
+            {% endfor %}
+        {% else %}
+            No pictures added
+        {% endif %}
+    </div>
+    <div>
+        {% if comments %}
+            {% for comment in comments %}
+                {{comment['comment']}}
+                <a href="/picture/{{comment['picture_id']}}">Show picture</a>
+            {% endfor %}
+        {% else %}
+            No comments made
+        {% endif %}
+    </div>
 </div>
 
 {% endblock %}

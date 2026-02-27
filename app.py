@@ -30,8 +30,7 @@ def index():
     if comments_from_db:
         latest_comments = [dict(comment) for comment in comments_from_db]
 
-    print(latest_comments)
-    print(latest_pictures)
+
 
     return render_template('home.html', user=user, comments=latest_comments, pictures=latest_pictures)
 
@@ -60,6 +59,8 @@ def login():
 def logout():
     del session['id']
     del session['username']
+    del session['csrf_token']
+
     return redirect('/')
 
 @app.route('/signin')
@@ -84,10 +85,35 @@ def login_user():
     session['id'] = user['id']
     session['username'] = user['username']
     session['csrf_token'] = secrets.token_hex(16)
- 
+    
 
-    return redirect('/')
+    '''
+    my_comments = None
+    my_pictures = None
+    
+    pictures_from_db = pictures.get_pictures_by_user_id(session['id'])
+    if pictures_from_db:
+        my_pictures = [dict(picture) for picture in pictures_from_db]
+    comments_from_db = pictures.get_comment_by_user_id(session['id'])
+    if comments_from_db:
+        my_comments = [dict(comment) for comment in comments_from_db]
+    '''
 
+    return redirect('/user_page')
+
+
+@app.route('/user_page')
+def user_page():
+    my_comments = None
+    my_pictures = None
+    
+    pictures_from_db = pictures.get_pictures_by_user_id(session['id'])
+    if pictures_from_db:
+        my_pictures = [dict(picture) for picture in pictures_from_db]
+    comments_from_db = pictures.get_comment_by_user_id(session['id'])
+    if comments_from_db:
+        my_comments = [dict(comment) for comment in comments_from_db]
+    return render_template('user_page.html', pictures=my_pictures, comments=my_comments)
 
 @app.route('/add_user_action', methods=['POST'])
 def add_user():
@@ -285,8 +311,5 @@ def show_statistics():
     statistics = {'users':len(user_data) if user_data else 0, 'pictures':len(picture_data)if picture_data else 0, 'comments':len(comment_data)if comment_data else 0}
     return render_template('/statistics.html', statistics=statistics)
 
-#Admin functionalities
-
-#to-do
 
 #search on date

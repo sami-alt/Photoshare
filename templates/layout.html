@@ -8,7 +8,10 @@
 
   <body>
     <header class="header">
-      <h1>PhotoShare</h1>
+      <div id="logo">
+        <h1 style="padding-top: 10px;">PhotoShare</h1>
+        <img src="../static/logo.png">
+      </div>
       <nav>
         <a href="/">Home</a>
         <a href="/pictures" >Pictures</a>
@@ -27,7 +30,7 @@
         {% if session %}
           <h2>{{session['username']}}</h2>
         {% else %}
-          no user
+          <p>                 </p>
         {% endif %}
     </header>
     <div class="message">        

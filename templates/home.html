@@ -1,29 +1,37 @@
 {% extends "layout.html" %}
 
 {% block content %}
-<div>
-  Last 5 pictures added
-  {% if pictures %}
-    {% for picture in pictures %}
-      <img src="/image/picture/{{picture['id']}}">
-      {{picture['name']}}
-    {% endfor %}
+<div id="home">
+
+  <div class="block">
+    Last 5 pictures added
+    {% if pictures %}
+      {% for picture in pictures %}
+        <div id="block_info">
+          <img src="/image/picture/{{picture['id']}}">
+          {{picture['name']}}
+        </div>
+        <div class="divider"></div>
+      {% endfor %}
     {% else %}
       No pictures added yet
-  {% endif %}
-</div>
-<div>
-  Last 5 comments made
-  {% if  comments%}
-    {% for comment in comments %}
-      {{comment['comment']}}
-      <a href="/picture/{{comment['picture_id']}}">Show picture</a>
-    {% endfor %}
-  {% else %}
-      No comments added yet
-  {% endif %}
-</div>
-<div>
+    {% endif %}
+  </div>
+  <div class="block">
+    Last 5 comments made
+    {% if  comments%}
+      {% for comment in comments %}
+      <div id="block_info">
+        {{comment['comment']}}
+        <a href="/picture/{{comment['picture_id']}}">Show picture</a>
+      </div>
+      <div class="divider"></div>
+        {% endfor %}
+      {% else %}
+        No comments added yet
+    {% endif %}
+  </div>
 
 </div>
+
 {% endblock %}
