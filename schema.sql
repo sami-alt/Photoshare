@@ -8,7 +8,7 @@ create table user_picture(
     id integer primary key,
     user_picture BLOB,
     user_id references user(id)
-)
+);
 
 create table picture(
     id integer primary key,

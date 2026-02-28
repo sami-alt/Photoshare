@@ -2,38 +2,53 @@
 
 {% block content %}
 <div id="user_page">
-    <div>   
+    <div class="row">
+        <div style="background-color: aqua;">   
             {% if image %}
-                <img>
+                <img src="/user_picture/{{session['id']}}">
             {% else %}
-                <p>No picture</p>
+            <p>No picture</p>
+            <form class="form" action="/add_or_update_userpage_pic/{{session['id']}}" method="post" enctype="multipart/form-data">
+                <input id="add_file" type="file" name="image" accept="image/*"  required/>
+                <label for="add_file" class="button">
+                    Choose picture
+                </label>
+                <input type="hidden" name="csrf_token" value="{{session['csrf_token']}}"/>
+                <input class="button" type="submit" value="Add user picture">
+            </form>
+        Choose file
+    </label>
+            </form>
+            {% endif %}
+        </div>
+        <div style="background-color: blue;">
+            Username: {{session['username']}}
+            Pictures added: 
+            Comments made:
+        </div>
+    </div>
+    <div class="row">
+
+     <div style="background-color: cadetblue;">
+            {% if pictures %}
+            {% for picture in pictures %}
+            <p><a href="/picture/{{picture['id']}}"><b>{{picture['name']}}</b></a></p>
+            {% endfor %}
+            {% else %}
+            No pictures added
             {% endif %}
     </div>
-    <div>
-        User info
-        Username:
-        Pictures added:
-        Comments made:
-    </div>
-    <div>
-        {% if pictures %}
-            {% for picture in pictures %}
-                  <p><a href="/picture/{{picture['id']}}">{{picture['name']}}</a></p>
-            {% endfor %}
-        {% else %}
-            No pictures added
-        {% endif %}
-    </div>
-    <div>
+    <div style="background-color: yellow;">
         {% if comments %}
-            {% for comment in comments %}
-                {{comment['comment']}}
-                <a href="/picture/{{comment['picture_id']}}">Show picture</a>
-            {% endfor %}
+        {% for comment in comments %}
+        {{comment['comment']}}
+        <a href="/picture/{{comment['picture_id']}}">Show picture</a>
+        {% endfor %}
         {% else %}
-            No comments made
+        No comments made
         {% endif %}
     </div>
 </div>
+
 
 {% endblock %}

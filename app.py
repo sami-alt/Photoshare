@@ -87,17 +87,6 @@ def login_user():
     session['csrf_token'] = secrets.token_hex(16)
     
 
-    '''
-    my_comments = None
-    my_pictures = None
-    
-    pictures_from_db = pictures.get_pictures_by_user_id(session['id'])
-    if pictures_from_db:
-        my_pictures = [dict(picture) for picture in pictures_from_db]
-    comments_from_db = pictures.get_comment_by_user_id(session['id'])
-    if comments_from_db:
-        my_comments = [dict(comment) for comment in comments_from_db]
-    '''
 
     return redirect('/user_page')
 
@@ -106,14 +95,21 @@ def login_user():
 def user_page():
     my_comments = None
     my_pictures = None
-    
+    image = None
+
     pictures_from_db = pictures.get_pictures_by_user_id(session['id'])
     if pictures_from_db:
         my_pictures = [dict(picture) for picture in pictures_from_db]
     comments_from_db = pictures.get_comment_by_user_id(session['id'])
     if comments_from_db:
         my_comments = [dict(comment) for comment in comments_from_db]
-    return render_template('user_page.html', pictures=my_pictures, comments=my_comments)
+
+    exists = users.get_user_picture(session['id'])
+
+    if exists:
+        image = exists
+    
+    return render_template('user_page.html', pictures=my_pictures, comments=my_comments, image=image)
 
 @app.route('/add_user_action', methods=['POST'])
 def add_user():
@@ -135,9 +131,34 @@ def add_user():
     flash('New user created', 'success')
     return redirect('/')
 
+
+@app.route('/add_or_update_userpage_pic/<int:user_id>', methods=['POST'])
+def add_or_update_user_picture(user_id):
+    require_login()
+    check_csrf()
+    
+    
+    file = request.files['image']
+    user_picture = file.read()
+
+    users.add_or_update_userpage_picture(user_id, user_picture)
+
+    return redirect('/user_page')
+
 @app.route('/user_picture/<int:user_id>')
 def get_user_image(user_id):
-    return redirect('/')
+    print('called')
+    image = users.get_user_picture(user_id)
+    if not image:
+        flash('Something went wrong')
+        return redirect('/user_page')
+    print(dict(image))
+    response = make_response(bytes(image['user_picture']))
+    response.headers.set('Content-Type', 'image/jpg, image/png')
+    return response
+    
+
+
 
 #picture functions
 
@@ -157,12 +178,17 @@ def add_picture_to_db():
     image = file.read()
     categories = request.form.getlist('category')
 
+    
+
     pictures.add_picture(session['id'], image, name, description, date)
     picture_id = db.last_insert_id()
   
     for category in categories:
         pictures.add_to_category(category, picture_id)
 
+    
+
+    print(file)
 
     flash('Picture added', 'success')
     return redirect('/')
