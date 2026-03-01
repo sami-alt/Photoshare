@@ -106,7 +106,8 @@ def user_page():
     if comments_from_db:
         my_comments = [dict(comment) for comment in comments_from_db]
 
-    mini_stats = {'pictures': len(my_pictures), 'comments':len(my_comments)}
+
+        mini_stats = {'pictures': len(my_pictures) if len(my_pictures) > 0 else 0 , 'comments':len(my_comments) if len(my_comments) > 0 else 0}
 
     exists = users.get_user_picture(session['id'])
 
