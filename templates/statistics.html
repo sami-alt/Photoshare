@@ -1,40 +1,70 @@
 {% extends "layout.html" %}
 
 {% block content %}
-
 {% if statistics %}
 <div class="column">
+  <p>Users in app: {{ statistics['users'] }}</p>
+  <p>Pictures added to app: {{ statistics['pictures'] }}</p>
+  <p>Comments written to pictures: {{ statistics['comments'] }}</p>
 
-    <p>
-        Users in app: {{statistics['users']}}
-    </p>
-    Pictures added to app: {{statistics['pictures']}}
-    <p>
-        Comments writen to pictures: {{statistics['comments']}}
-    </p>
-    <p>
-        To be added:
-    </p>
-        <p>
-            Most populat category
-    </p>
-    <p>
-        Date with most pictures
-    </p>
-    <p>
-        User with most pictures
-    </p>
-    <p>
-        User commented most
-    </p>
-    <p>
-        User gotten most Comments
-    </p>
-    <p>
-        Picture gotten most comments
-    </p>
+  <hr/>
+
+  <p>
+    Most popular category:
+    {% if statistics['popular_category'] %}
+      {{ statistics['popular_category']['name'] }} ({{ statistics['popular_category']['count'] }} pictures)
+    {% else %}
+      N/A
+    {% endif %}
+  </p>
+
+  <p>
+    Date with most pictures:
+    {% if statistics['busiest_date'] %}
+      {{ statistics['busiest_date']['date'] }} ({{ statistics['busiest_date']['count'] }})
+    {% else %}
+      N/A
+    {% endif %}
+  </p>
+
+  <p>
+    User with most pictures:
+    {% if statistics['top_uploader'] %}
+      {{ statistics['top_uploader']['username'] }} ({{ statistics['top_uploader']['count'] }})
+    {% else %}
+      N/A
+    {% endif %}
+  </p>
+
+  <p>
+    User commented most:
+    {% if statistics['top_commenter'] %}
+      {{ statistics['top_commenter']['username'] }} ({{ statistics['top_commenter']['count'] }})
+    {% else %}
+      N/A
+    {% endif %}
+  </p>
+
+  <p>
+    User gotten most comments:
+    {% if statistics['most_commented_owner'] %}
+      {{ statistics['most_commented_owner']['username'] }} ({{ statistics['most_commented_owner']['count'] }})
+    {% else %}
+      N/A
+    {% endif %}
+  </p>
+
+  <p>
+    Picture gotten most comments:
+    {% if statistics['most_commented_picture'] %}
+      <a href="/picture/{{ statistics['most_commented_picture']['id'] }}">
+        {{ statistics['most_commented_picture']['name'] }}
+      </a>
+      ({{ statistics['most_commented_picture']['count'] }})
+    {% else %}
+      N/A
+    {% endif %}
+  </p>
 </div>
 {% endif %}
-
-
 {% endblock %}

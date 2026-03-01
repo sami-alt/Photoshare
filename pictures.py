@@ -72,4 +72,103 @@ def add_to_category(category_id,picture_id):
      db.execute('insert into picture_in_category (category_id, picture_id) values (?,?)',
                 [category_id, picture_id])
 
-#Admin features
+
+def count_pictures():
+    res = db.query('select count(*) as cnt from picture', [], True)
+    return res['cnt'] if res else 0
+
+def count_comments():
+    res = db.query('select count(*) as cnt from comment', [], True)
+    return res['cnt'] if res else 0
+
+def count_users():
+    res = db.query('select count(*) as cnt from user', [], True)
+    return res['cnt'] if res else 0
+
+def most_popular_category():
+    # Laskee eniten kuvia sisältävän kategorian
+    sql = '''
+        select c.id, c.category_name, count(pic.id) as pic_count
+        from categories c
+        left join picture_in_category pic on pic.category_id = c.id
+        group by c.id, c.category_name
+        order by pic_count desc, c.category_name asc
+        limit 1
+    '''
+    row = db.query(sql, [], True)
+    if not row:
+        return None
+    return {'id': row['id'], 'name': row['category_name'], 'count': row['pic_count']}
+
+def date_with_most_pictures():
+    # Päivä (date-kenttä) jolla eniten kuvia
+    sql = '''
+        select date, count(*) as cnt
+        from picture
+        where date is not null and date <> ''
+        group by date
+        order by cnt desc, date asc
+        limit 1
+    '''
+    row = db.query(sql, [], True)
+    if not row:
+        return None
+    return {'date': row['date'], 'count': row['cnt']}
+
+def user_with_most_pictures():
+    sql = '''
+        select u.id, u.username, count(p.id) as pic_count
+        from user u
+        left join picture p on p.user_id = u.id
+        group by u.id, u.username
+        order by pic_count desc, u.username asc
+        limit 1
+    '''
+    row = db.query(sql, [], True)
+    if not row:
+        return None
+    return {'id': row['id'], 'username': row['username'], 'count': row['pic_count']}
+
+def user_who_commented_most():
+    sql = '''
+        select u.id, u.username, count(c.id) as comment_count
+        from user u
+        left join comment c on c.user_id = u.id
+        group by u.id, u.username
+        order by comment_count desc, u.username asc
+        limit 1
+    '''
+    row = db.query(sql, [], True)
+    if not row:
+        return None
+    return {'id': row['id'], 'username': row['username'], 'count': row['comment_count']}
+
+def user_who_got_most_comments():
+    # Eniten kommentteja saaneiden kuvien omistaja
+    sql = '''
+        select u.id, u.username, count(c.id) as comment_count
+        from user u
+        join picture p on p.user_id = u.id
+        left join comment c on c.picture_id = p.id
+        group by u.id, u.username
+        order by comment_count desc, u.username asc
+        limit 1
+    '''
+    row = db.query(sql, [], True)
+    if not row:
+        return None
+    return {'id': row['id'], 'username': row['username'], 'count': row['comment_count']}
+
+def picture_with_most_comments():
+    sql = '''
+        select p.id, p.name, count(c.id) as comment_count
+        from picture p
+        left join comment c on c.picture_id = p.id
+        group by p.id, p.name
+        order by comment_count desc, p.name asc
+        limit 1
+    '''
+    row = db.query(sql, [], True)
+    if not row:
+        return None
+    return {'id': row['id'], 'name': row['name'], 'count': row['comment_count']}

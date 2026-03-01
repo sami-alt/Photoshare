@@ -22,15 +22,15 @@ def index():
 
     comments_from_db = None
     pictures_from_db = None
-    
+    latest_pictures = []
+    latest_comments = []
+
     pictures_from_db = pictures.get_pictures_by_quantity(5)
     if pictures_from_db:
         latest_pictures = [dict(picture) for picture in pictures_from_db]
     comments_from_db = pictures.get_comments_by_quantity(5)
     if comments_from_db:
         latest_comments = [dict(comment) for comment in comments_from_db]
-
-
 
     return render_template('home.html', user=user, comments=latest_comments, pictures=latest_pictures)
 
@@ -39,7 +39,6 @@ def index():
 
 def require_login():
     if 'id' not in session:
-       
         abort(403)
 
 
@@ -47,7 +46,6 @@ def check_csrf():
     if 'csrf_token' not in session:
         abort(403)
     if request.form["csrf_token"] != session["csrf_token"]:
-
         abort(403)
 
 @app.route('/login')
@@ -57,6 +55,7 @@ def login():
 
 @app.route('/logout')
 def logout():
+    require_login()
     del session['id']
     del session['username']
     del session['csrf_token']
@@ -93,6 +92,7 @@ def login_user():
 
 @app.route('/user_page')
 def user_page():
+    require_login()
     my_comments = None
     my_pictures = None
     image = None
@@ -137,8 +137,15 @@ def add_or_update_user_picture(user_id):
     require_login()
     check_csrf()
     
+    ALLOWED_MIMES = {'image/jpeg', 'image/png'}
+
     
     file = request.files['image']
+
+    if file.mimetype not in ALLOWED_MIMES:
+        flash('Only JPEG or PNG images are allowed', 'failure')
+        return redirect('/user_page')
+    
     user_picture = file.read()
 
     users.add_or_update_userpage_picture(user_id, user_picture)
@@ -171,14 +178,37 @@ def add_picture_page():
 def add_picture_to_db():
     require_login()
     check_csrf()
-    #add validation
+
+    ALLOWED_MIMES = {'image/jpeg', 'image/png'}
+
     file = request.files['image']
+    if file.mimetype not in ALLOWED_MIMES:
+        flash('Only JPEG or PNG images are allowed', 'failure')
+        return render_template('add_picture.html')
     name = request.form['name']
     description = request.form['description']
     date = request.form['date']
     image = file.read()
     categories = request.form.getlist('category')
 
+    if not image:
+        flash('Picture not provided', 'failure')
+        return render_template('add_picture.html')
+
+    if len(name) < 1 or len(name) > 255:
+        flash('Name lenght must be between 1 and 255 characters')
+        return render_template('add_picture.html')
+
+
+    if len(description) < 1 or len(description) > 255:
+        flash('Description lenght must be between 1 and 255 characters')
+        return render_template('add_picture.html')
+      
+
+    if date:
+        if not validate_date(date):
+            flash('Date is not valid, follow the date format give', 'failure')
+            return render_template('add_picture.html')
     
 
     pictures.add_picture(session['id'], image, name, description, date)
@@ -193,22 +223,36 @@ def add_picture_to_db():
     return redirect('/')
 
 def validate_date(date):
-    valid = None
-    date = date.split('.')
+    if not isinstance(date, str):
+        return False
+    
+    if len(date) != 10:
+        return False
 
-    if date[0].isnumeric() and date[1].isnumeric() and date[3].isnumeric():
-        valid = True
-    else:
-        valid = False
+    if date[2] != '.' or date[5] != '.':
+        return False
 
-    if valid and len(date[0]) == 2 and len(date[1]) == 2 and len(date[2]) == 2:
-        if int(date[0][2]) <= 31 and int(date[1][0]) <= 1 and len(date[2]) == 4:
-            valid = True
-            return
-    else:
-        valid = False
+    for i in range(10):
+        if i in (2, 5):
+            continue
+        if not date[i].isdigit():
+            return False
 
-    return valid
+    day = int(date[0:2])
+    month = int(date[3:5])
+    year = int(date[6:10])
+
+    if month < 1 or month > 12:
+        return False
+
+    if day < 1 or day > 31:
+        return False
+
+    if year < 0 or year > 9999:
+        return False
+
+    return True
+
 
 @app.route('/picture/<int:picture_id>')
 def one_picture(picture_id):
@@ -243,6 +287,7 @@ def get_pictures():
 
 @app.route('/my_pictures')
 def my_pictures():
+    require_login()
     pictures_by_user = pictures.get_pictures_by_user_id(session['id'])
     my_pics = None
     if pictures_by_user:
@@ -251,17 +296,28 @@ def my_pictures():
 
 @app.route('/remove/<int:picture_id>', methods=['POST'])
 def delete_picture(picture_id):
+    require_login()
     check_csrf()
-    pictures.delete_picture(picture_id)
-    flash('Picture deleted','success')
+    user_id = pictures.get_picture(picture_id)
+    if user_id['user_id'] == session['id']:
+        pictures.delete_picture(picture_id)
+        flash('Picture deleted','success')
     return redirect('/')
 
 @app.route('/modify/<int:picture_id>', methods=['GET'])
 def modify_picture(picture_id):
+    require_login()
     info = None
 
     result = pictures.get_picture(picture_id)
+
+    if result['user_id'] != session['id']:
+        flash('You are not owner of this post')
+        return redirect('/')
+
     info = {'name':result[0], 'description':result[1], 'date':result[2]}
+
+
 
     return render_template('modify.html', info=info, id=picture_id)
 
@@ -269,6 +325,7 @@ def modify_picture(picture_id):
 def modify_picture_info(picture_id):
     require_login()
     check_csrf()
+
     name = request.form['name']
     description = request.form['description']
     date = request.form['date']
@@ -321,20 +378,37 @@ def add_comment_to_picture(picture_id):
 
 @app.route('/my_comments')
 def my_comments():
+    require_login()
     comments = None
     comments = pictures.get_comment_by_user_id(session['id'])
     return render_template('my_comments.html', comments=comments)
 
+# app.py
 @app.route('/statistics')
 def show_statistics():
-    statistics = None
 
-    user_data = users.get_users()
-    picture_data = pictures.get_all()
-    comment_data = pictures.get_comments()
+    total_users = pictures.count_users()
+    total_pictures = pictures.count_pictures()
+    total_comments = pictures.count_comments()
 
-    statistics = {'users':len(user_data) if user_data else 0, 'pictures':len(picture_data)if picture_data else 0, 'comments':len(comment_data)if comment_data else 0}
-    return render_template('/statistics.html', statistics=statistics)
+    
+    popular_category = pictures.most_popular_category()
+    busiest_date = pictures.date_with_most_pictures()
+    top_uploader = pictures.user_with_most_pictures()
+    top_commenter = pictures.user_who_commented_most()
+    most_commented_owner = pictures.user_who_got_most_comments()
+    most_commented_picture = pictures.picture_with_most_comments()
 
+    statistics = {
+        'users': total_users,
+        'pictures': total_pictures,
+        'comments': total_comments,
+        'popular_category': popular_category,
+        'busiest_date': busiest_date,
+        'top_uploader': top_uploader,
+        'top_commenter': top_commenter,
+        'most_commented_owner': most_commented_owner,
+        'most_commented_picture': most_commented_picture
+    }
+    return render_template('statistics.html', statistics=statistics)
 
-#search on date
