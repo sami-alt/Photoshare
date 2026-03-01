@@ -66,6 +66,8 @@ header h2{
 .message{
     height: 5vh;
     width: 100vw;
+    display: flex;
+    justify-content: center;
     /*
     border-style: solid;
     border-color: green;
@@ -322,7 +324,23 @@ footer{
     align-items: center;
 }
 
-/* Utility style */
+/* My comments */
+
+#my_comments{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+#my_comments .divider{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40%;
+}
+
+
+/* Utility  */
 
 html, body {
     font-family: 'Courier New', monospace;
@@ -403,8 +421,25 @@ p{
              -13px -13px 100px #ffffff;
 }
 
-
+#textarea {
+  border: none;
+  outline: none;
+  border-radius: 15px;
+  padding: 1em;
+  background-color: #ccc;
+  box-shadow: inset 2px 5px 10px rgba(0,0,0,0.3);
+  transition: 300ms ease-in-out;
+  
+}
  
+#textarea:focus {
+  background-color: white;
+  transform: scale(1.05);
+  box-shadow: 13px 13px 100px #969696,
+             -13px -13px 100px #ffffff;
+}
+
+
 img {
     max-width: 35%;
     height: auto;
@@ -414,9 +449,11 @@ img {
 
 
 .divider{
+
     border-top: solid grey 3px ;
     margin-top: 5px;
     margin-bottom: 25px;
+    width: 100%;
 }
 
 a:link{

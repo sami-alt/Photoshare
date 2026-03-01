@@ -17,7 +17,6 @@
                 <input type="hidden" name="csrf_token" value="{{session['csrf_token']}}"/>
                 <input class="button" type="submit" value="Add user picture">
             </form>
-        Choose file
     </label>
             </form>
             {% endif %}
@@ -25,8 +24,8 @@
         <div>
             <h4>Info</h4>
             <P>Username: {{session['username']}}</P>
-            <p>Pictures added: </p>
-            <p>Comments made:</p>
+            <p>Pictures added: {{mini_stats['pictures']}} </p>
+            <p>Comments made: {{mini_stats['comments']}}</p>
         </div>
     </div>
     <div class="row">
@@ -38,7 +37,7 @@
                     <p><a href="/picture/{{picture['id']}}"><b>{{picture['name']}}</b></a></p>
                 {% endfor %}
             {% else %}
-                No pictures added
+                <p>No pictures added</p>
             {% endif %}
     </div>
     <div>
@@ -49,7 +48,7 @@
                 <p><a href="/picture/{{comment['picture_id']}}">Show picture</a></p>
             {% endfor %}
         {% else %}
-            No comments made
+            <p>No comments made</p>
         {% endif %}
     </div>
 </div>

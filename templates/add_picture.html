@@ -6,12 +6,12 @@
     <form class="form" action="/add_new_picture" method="post" enctype="multipart/form-data">
         <input id="add_file" type="file" name="image" accept="image/*"  required/>
     <label for="add_file" class="button">
-        Choose file
+        Choose .jpg or .png file
     </label>
     <h4>Name</h4>
     <input class="input" type="text" name="name" required/>
     <h4>Description</h4>
-    <input class="input type="text" name="description"/>
+    <textarea id="textarea" type="textarea" name="description" rows="5" cols="20"></textarea>
     <h4>Date</h4>
     <input class="input" type="text" name="date" placeholder="dd.mm.yyyy">
     Categories:

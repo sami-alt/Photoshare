@@ -96,6 +96,8 @@ def user_page():
     my_comments = None
     my_pictures = None
     image = None
+    mini_stats = None
+
 
     pictures_from_db = pictures.get_pictures_by_user_id(session['id'])
     if pictures_from_db:
@@ -104,12 +106,14 @@ def user_page():
     if comments_from_db:
         my_comments = [dict(comment) for comment in comments_from_db]
 
+    mini_stats = {'pictures': len(my_pictures), 'comments':len(my_comments)}
+
     exists = users.get_user_picture(session['id'])
 
     if exists:
         image = exists
     
-    return render_template('user_page.html', pictures=my_pictures, comments=my_comments, image=image)
+    return render_template('user_page.html', pictures=my_pictures, comments=my_comments, image=image, mini_stats=mini_stats)
 
 @app.route('/add_user_action', methods=['POST'])
 def add_user():

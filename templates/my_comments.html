@@ -1,16 +1,17 @@
 {% extends "layout.html" %}
 
 {% block content %}
-<div class="column">
+<div id="my_comments">
 
-    Your comments
+    <p>Your comments</p>
     {% if comments %}
-    {% for comment in comments %}
-    <img src="/image/picture/{{comment['picture_id']}}" width="200"/>
-    <p>{{comment.comment}}</p>
-    {% endfor %}
+        {% for comment in comments %}
+            <img src="/image/picture/{{comment['picture_id']}}" width="200"/>
+            <p>{{comment.comment}}</p>
+            <div class="divider"></div>
+        {% endfor %}
     {% else %}
-    No comments made
+        <p>No comments made</p>
     {% endif %}
     
 </div>
