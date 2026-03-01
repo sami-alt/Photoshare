@@ -107,7 +107,7 @@ def user_page():
         my_comments = [dict(comment) for comment in comments_from_db]
 
 
-        mini_stats = {'pictures': len(my_pictures) if len(my_pictures) > 0 else 0 , 'comments':len(my_comments) if len(my_comments) > 0 else 0}
+        mini_stats = {'pictures': len(my_pictures) if len(my_pictures) > 0 else '0' , 'comments':len(my_comments) if len(my_comments) > 0 else '0'}
 
     exists = users.get_user_picture(session['id'])
 
@@ -205,8 +205,8 @@ def add_picture_to_db():
         return render_template('add_picture.html')
 
 
-    if len(description) < 1 or len(description) > 255:
-        flash('Description lenght must be between 1 and 255 characters')
+    if  len(description) > 1000:
+        flash('Description lenght can be at mosy 1000 characters')
         return render_template('add_picture.html')
       
 
