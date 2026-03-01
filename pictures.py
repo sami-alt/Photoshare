@@ -86,7 +86,7 @@ def count_users():
     return res['cnt'] if res else 0
 
 def most_popular_category():
-    # Laskee eniten kuvia sisältävän kategorian
+
     sql = '''
         select c.id, c.category_name, count(pic.id) as pic_count
         from categories c
@@ -101,7 +101,7 @@ def most_popular_category():
     return {'id': row['id'], 'name': row['category_name'], 'count': row['pic_count']}
 
 def date_with_most_pictures():
-    # Päivä (date-kenttä) jolla eniten kuvia
+    
     sql = '''
         select date, count(*) as cnt
         from picture
@@ -144,7 +144,7 @@ def user_who_commented_most():
     return {'id': row['id'], 'username': row['username'], 'count': row['comment_count']}
 
 def user_who_got_most_comments():
-    # Eniten kommentteja saaneiden kuvien omistaja
+    
     sql = '''
         select u.id, u.username, count(c.id) as comment_count
         from user u
