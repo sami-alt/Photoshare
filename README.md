@@ -9,9 +9,9 @@ Kommentoi toisten kuvia<br>
 Etsi kuvia nimen, sijannin, tarinan sisällön tai muun katergorina mukaan<br>
 Näe tilastoja kuvista ja käyttäjistä<br>
 Tutki omaasi ja toisten profiileja<br>
+Käyttäjä voi lisätä itselleen profiili kuvan<br>
 Applikaatiosta löytyy tilastoa statistics sivulta ja mini version tästä on löydettävistä
  käytäjän omalta sivulta<br>
-## Ylläpitäjän oikeudet ja toimminnnot
 
 # Applikaation testaus
 
