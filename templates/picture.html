@@ -8,7 +8,6 @@
     <img src="/image/picture/{{id}}"/>
     <div class="text">
         <div>
-
                 <p>{{info['description']}}</p>
                 <div id="date">
                         <p>{{info['date']}}</p>
@@ -26,6 +25,7 @@
             <input type="hidden" name="csrf_token" value="{{session['csrf_token']}}"/>
             <input class="button" type="submit" name="add_comment" value="Comment">
         </form>
+        {% endif %}
         <div class="text">
             <div>
                     <h4>Comments</h4>
@@ -37,10 +37,13 @@
                     <div class="divider"></div>
                     {% endfor %}
                     {% else %}
-                    <p>Be first to comment on this picture</p>
+                    {% if session %}
+                        <p>Be first to comment on this picture</p>
+                    {% else %}
+                        <p>Login to comment on picture</p>
+                    {% endif %}
                     {% endif %}       
                 </div>
         </div>
-    {% endif %}
 </div>
 {% endblock %}

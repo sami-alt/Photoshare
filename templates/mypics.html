@@ -3,7 +3,7 @@
 {% block content %}
 
   {% for picture in pictures %}
-    <p><a href="/picture/{{picture['id']}}">{{picture['name']}}</a></p>
+    <p><a href="/picture/{{picture['id']}}"><b>{{picture['name']}}</b></a></p>
   {% endfor %}
 
 {% endblock %}

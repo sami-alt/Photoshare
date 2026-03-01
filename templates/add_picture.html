@@ -1,26 +1,40 @@
 {% extends "layout.html" %}
 
 {% block content %}
+<div id="add_picture">
 
-<form class="form" action="/add_new_picture" method="post" enctype="multipart/form-data" class="form">
+    <form class="form" action="/add_new_picture" method="post" enctype="multipart/form-data">
+        <input id="add_file" type="file" name="image" accept="image/*"  required/>
     <label for="add_file" class="button">
         Choose file
     </label>
-    Picture: <input id="add_file" type="file" name="image" accept="image/*"  required/>
-    Name: <input class="input" type="text" name="name" required/>
-    Description: <input class="input type="text" name="description"/>
-    Date <input class="input" type="text" name="date" placeholder="dd.mm.yyyy">
+    <h4>Name</h4>
+    <input class="input" type="text" name="name" required/>
+    <h4>Description</h4>
+    <input class="input type="text" name="description"/>
+    <h4>Date</h4>
+    <input class="input" type="text" name="date" placeholder="dd.mm.yyyy">
     Categories:
-    <input type="checkbox" id="portrait" name="category" value="1">
-    <label for="portrait">Portrait</label>
-    <input type="checkbox" id="view" name="category" value="2">
-    <label for="view">View</label>
-    <input type="checkbox" id="animal" name="category" value="3">
-    <label for="animal">Animal</label>
-    <input type="checkbox" id="people" name="category" value="4">
-    <label for="people">People</label>
-    <input type="hidden" name="csrf_token" value="{{session['csrf_token']}}"/>
-    <input class="button" type="submit" value="Add picture"/>
-</form>
-
+    <form class="form" action="search_with_categories" method="get">
+        <label for="portrait">
+            <input type="checkbox" id="portrait" name="category" value="1">
+            Portrait
+        </label>
+        <label for="view">
+            <input type="checkbox" id="view" name="category" value="2">
+            View
+        </label>
+        <label for="animal">
+            <input type="checkbox" id="animal" name="category" value="3">
+            Animal
+        </label>
+        <label for="people">
+            <input type="checkbox" id="people" name="category" value="4">
+            People
+        </label>
+        <input type="hidden" name="csrf_token" value="{{session['csrf_token']}}"/>
+        <input class="button" type="submit" value="Add picture"/>
+    </form>
+    </div>
+    
 {% endblock %}

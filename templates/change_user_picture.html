@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+                                    
+{% block content %}
+ 
+<form class="form" action="/add_or_update_userpage_pic/{{session['id']}}" method="post" enctype="multipart/form-data">
+    <input id="add_file" type="file" name="image" accept="image/*"  required/>
+    <label for="add_file" class="button">
+        Choose picture
+    </label>
+    <input type="hidden" name="csrf_token" value="{{session['csrf_token']}}"/>
+    <input class="button" type="submit" value="Change user picture">
+</form>
+
+{% endblock %}

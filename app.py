@@ -147,17 +147,18 @@ def add_or_update_user_picture(user_id):
 
 @app.route('/user_picture/<int:user_id>')
 def get_user_image(user_id):
-    print('called')
     image = users.get_user_picture(user_id)
     if not image:
         flash('Something went wrong')
         return redirect('/user_page')
-    print(dict(image))
     response = make_response(bytes(image['user_picture']))
     response.headers.set('Content-Type', 'image/jpg, image/png')
     return response
     
+@app.route('/change_user_picture')
+def change_user_picture_page():
 
+    return render_template('change_user_picture.html')
 
 
 #picture functions
@@ -187,8 +188,6 @@ def add_picture_to_db():
         pictures.add_to_category(category, picture_id)
 
     
-
-    print(file)
 
     flash('Picture added', 'success')
     return redirect('/')
@@ -253,7 +252,6 @@ def my_pictures():
 @app.route('/remove/<int:picture_id>', methods=['POST'])
 def delete_picture(picture_id):
     check_csrf()
-    print(picture_id)
     pictures.delete_picture(picture_id)
     flash('Picture deleted','success')
     return redirect('/')

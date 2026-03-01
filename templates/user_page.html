@@ -3,9 +3,10 @@
 {% block content %}
 <div id="user_page">
     <div class="row">
-        <div style="background-color: aqua;">   
+        <div id="my_pic">   
             {% if image %}
-                <img src="/user_picture/{{session['id']}}">
+                <img src="/user_picture/{{session['id']}}"  width="200" height="auto">
+                <a href="/change_user_picture" class="button" >Change user picture</a>
             {% else %}
             <p>No picture</p>
             <form class="form" action="/add_or_update_userpage_pic/{{session['id']}}" method="post" enctype="multipart/form-data">
@@ -21,31 +22,34 @@
             </form>
             {% endif %}
         </div>
-        <div style="background-color: blue;">
-            Username: {{session['username']}}
-            Pictures added: 
-            Comments made:
+        <div>
+            <h4>Info</h4>
+            <P>Username: {{session['username']}}</P>
+            <p>Pictures added: </p>
+            <p>Comments made:</p>
         </div>
     </div>
     <div class="row">
 
-     <div style="background-color: cadetblue;">
+     <div>
+            <h4> Pictures you have added lately </h4>
             {% if pictures %}
-            {% for picture in pictures %}
-            <p><a href="/picture/{{picture['id']}}"><b>{{picture['name']}}</b></a></p>
-            {% endfor %}
+                {% for picture in pictures %}
+                    <p><a href="/picture/{{picture['id']}}"><b>{{picture['name']}}</b></a></p>
+                {% endfor %}
             {% else %}
-            No pictures added
+                No pictures added
             {% endif %}
     </div>
-    <div style="background-color: yellow;">
+    <div>
+        <h4> Comments you have made lately </h4>
         {% if comments %}
-        {% for comment in comments %}
-        {{comment['comment']}}
-        <a href="/picture/{{comment['picture_id']}}">Show picture</a>
-        {% endfor %}
+            {% for comment in comments %}
+                <p>{{comment['comment']}}</p>
+                <p><a href="/picture/{{comment['picture_id']}}">Show picture</a></p>
+            {% endfor %}
         {% else %}
-        No comments made
+            No comments made
         {% endif %}
     </div>
 </div>

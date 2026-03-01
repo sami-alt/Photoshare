@@ -5,12 +5,13 @@
 <h1>Pictures</h1>
 {% if pictures %}
   {% for picture in pictures %}
-  <p>
+  <h4>
     {{picture['name']}}
-  </p>
+  </h4>
   <a href="/picture/{{picture['id']}}">
         <img src="/image/picture/{{picture['id']}}"/>
   </a>
+  <div class="divider"></div>
   {% endfor %}
   {% else %}
     <p>No pictures found</p>

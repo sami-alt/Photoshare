@@ -57,8 +57,10 @@ header a:visited{
 }
 
 header h2{
-    padding-top: 15px;
-    padding-right: 20px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .message{
@@ -90,7 +92,9 @@ footer{
     border-style: solid;
     border-color: blue;
     */
+    display: flex;
     justify-content: center;
+    align-items: center;
 }
 
 /* Home */
@@ -206,9 +210,7 @@ footer{
     min-width: 30%;
 }
 
-#search p{
-    padding-left: 30%;
-}
+
 
 /* User page */
 
@@ -220,17 +222,22 @@ footer{
 /* Pictures */
 
 #pictures{
-    padding-left: 40%;
+ 
+}
+
+#pictures img{
+    margin: auto;
 }
 
 #pictures h1{
+    display: flex;
+    justify-self: center;
+    align-items: center;
     margin-bottom: 5%;
 }
 
 /* Picture */
-#picture{
 
-}
 #picture img{
     margin: auto;
 }
@@ -266,6 +273,53 @@ footer{
 
 #modify img{
     margin: auto;
+}
+
+/* Add  picture */
+
+#add_picture h4, p, label{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+/* User_page */
+
+#user_page{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    height: 100%;
+}
+
+#user_page .row{
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: row;
+    height: 300px;
+}
+
+.row div{
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+}
+
+.row div p{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.row div a{
+    text-decoration: underline;
+}
+
+#my_pic{
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 /* Utility style */
@@ -349,15 +403,18 @@ p{
              -13px -13px 100px #ffffff;
 }
 
-.content img {
+
+ 
+img {
     max-width: 35%;
     height: auto;
-    display: block;  /* Poistaa ylimääräisen tilan kuvan alta */
+    display: block;
 }
 
 
+
 .divider{
-    border-top: solid grey 1px;
+    border-top: solid grey 3px ;
     margin-top: 5px;
     margin-bottom: 25px;
 }

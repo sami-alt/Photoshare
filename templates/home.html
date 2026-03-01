@@ -11,7 +11,10 @@
       {% for picture in pictures %}
         <div id="block_info">
           <p>
-            {{picture['name']}}
+            <b>
+              {{picture['name']}}
+
+            </b>
           </p>
           <a href="/picture/{{picture['id']}}">
             <img src="/image/picture/{{picture['id']}}">
